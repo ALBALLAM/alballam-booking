@@ -1,0 +1,29 @@
+<div class="dialog-content-container" [dir]="data.direction" fxLayout="column" *ngIf="!showConfirmation">
+  <div class="main-title">{{'PROFILE.CALENDAR_TITLE' | translate}}</div>
+  <div class="subtitle">{{'PROFILE.CALENDAR_SUBTITLE' | translate}}</div>
+  <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center" class="buttons-div">
+    <div (click)="addEventToCalendar('gmail')" class="sync-btn google-btn">
+      <mat-icon svgIcon="google"></mat-icon>
+      <span>{{'PROFILE.GOOGLE_BTN' | translate}}</span>
+    </div>
+    <div (click)="addEventToCalendar('outlook')" class="sync-btn outlook-btn">
+      <mat-icon svgIcon="outlook"></mat-icon>
+      <span>{{'PROFILE.OUTLOOK_BTN' | translate}}</span>
+    </div>
+  </div>
+  <div class="separator"></div>
+  <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center" class="buttons-div">
+    <button mat-raised-button color="primary" class="button primary-button receipt-button" (click)="closePopup()">
+      {{'COMMON.CANCEL' | translate}}
+    </button>
+  </div>
+</div>
+<div class="dialog-content-container confirmation logout-popup" *ngIf="showConfirmation">
+  <h2 mat-dialog-title>{{'COMMON.SUCCESS' | translate}}</h2>
+  <mat-dialog-content class="mat-typography">
+    <p>{{'PROFILE.EVENT_SUCCESS' | translate}}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-raised-button mat-dialog-close color="primary" (click)="closePopup()">Ok</button>
+  </mat-dialog-actions>
+</div>

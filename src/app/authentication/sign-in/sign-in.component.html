@@ -1,0 +1,30 @@
+<div class="language-{{currentLang}}">
+  <div class="authentication-title">{{'AUTHENTICATION.SIGN_IN_TITLE' | translate}}</div>
+  <div class="authentication-form">
+    <form *ngIf="form" [formGroup]="form" fxLayout="column" fxFlexFill>
+      <div>
+        <app-text id="email" label="{{'AUTHENTICATION.SIGN_IN_EMAIL_FIELD' | translate }}"
+                  [group]="form" name="email" required="true" [currentLang]="currentLang"
+                  appearance="outline" (keyUpEvent)="removeErrorMessage()"
+                  [patternErrorMessage]="emailPatternErrorMessage"></app-text>
+      </div>
+      <app-password label="{{ 'AUTHENTICATION.SIGN_IN_PASSWORD_FIELD' | translate }}"
+                    [group]="form" name="password" required="true" [currentLang]="currentLang"
+                    appearance="outline" (keyUpEvent)="removeErrorMessage()"></app-password>
+      <mat-error class="auth-error" *ngIf="errorMessage">{{errorMessage}}</mat-error>
+      <div class="forgot-password" fxLayout="row" fxLayoutAlign="end center">
+        <span class="clickable" (click)="routeToForgetScreen()">{{'AUTHENTICATION.SIGN_IN_FORGET_PASSWORD' | translate}}</span>
+      </div>
+      <div *ngIf="form">
+        <button [disabled]="!form.valid" mat-raised-button color="primary" (click)="onSubmit()"
+                class="authentication-button">
+          {{'AUTHENTICATION.SIGN_IN_BUTTON' | translate}}
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="create-account-div">
+    <span>{{'AUTHENTICATION.SIGN_IN_DONT_HAVE_ACCOUNT' | translate}}</span>
+    <span class="create-account clickable" [routerLink]="'/'+routeVariables.signUp">{{'AUTHENTICATION.SIGN_IN_CREATE_ACCOUNT' | translate}}</span>
+  </div>
+</div>

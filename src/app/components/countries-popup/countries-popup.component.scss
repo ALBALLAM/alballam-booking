@@ -1,0 +1,79 @@
+@import "../../../assets/style/variables";
+
+::ng-deep .countries-popup-dialog {
+  mat-dialog-container {
+    padding: 0 !important;
+    max-width: 500px;
+    min-width: 500px;
+    text-align: center;
+  }
+}
+
+.dialog-content-container {
+  padding: 40px;
+}
+
+.dialog-content-container-en {
+  padding-right: 20px;
+}
+
+.dialog-content-container-ar {
+  padding-left: 20px;
+}
+
+.countries-title {
+  font-size: 25px;
+  color: get-color(secondary);
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+}
+
+.cancel-button {
+  width: 40%;
+  border-radius: 3px !important;
+}
+
+.country-parent {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.country-selected-true {
+  border: solid 1px get-color(primary);
+  color: get-color(primary);
+  background-color: #fff6e0;
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+}
+
+.country-selected-false {
+  border: solid 1px #979797;
+  color: #868686;
+}
+
+.country-item {
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  ::ng-deep .countries-popup-dialog {
+    mat-dialog-container {
+      min-width: 255px;
+    }
+  }
+  .dialog-content-container {
+    padding: 20px;
+  }
+  .countries-title {
+    font-size: 20px !important;
+  }
+  .cancel-button {
+    width: 100%;
+  }
+}

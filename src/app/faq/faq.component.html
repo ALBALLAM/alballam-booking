@@ -1,0 +1,29 @@
+<div class="details-container language-{{currentLang}}" [dir]="direction">
+  <div [ngTemplateOutlet]="backContainer"></div>
+  <div class="background-container">
+    <div class="section-title">{{'FAQ.TITLE' | translate}}</div>
+    <div class="margin-top">
+      <div *ngFor="let item of faqs;let index=index" class="faq-item-container">
+        <div class="question-container" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
+          <div class="item-abbrev">{{ 'FAQ.Q' | translate}}</div>
+          <div class="faq-text faq-max-width">{{item.question}}</div>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="none none">
+          <div class="item-abbrev">{{ 'FAQ.A' | translate}}</div>
+          <div class="faq-content content-wrap faq-max-width">{{item.answer}}</div>
+        </div>
+        <div *ngIf="index!=faqs.length-1" class="row-spacing"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #backContainer>
+  <div class="back-div clickable language-{{currentLang}}" fxLayout="row" fxLayoutAlign="start center"
+       (click)="back()">
+    <div fxLayout="row" fxLayoutAlign="center center" class="back-arrow rotate-icon-{{currentLang}}">
+      <mat-icon svgIcon="back"></mat-icon>
+    </div>
+    <span class="back-name">{{'COMMON.BACK' | translate}}</span>
+  </div>
+</ng-template>

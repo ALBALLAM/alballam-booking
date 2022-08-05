@@ -1,0 +1,11 @@
+@import "../../../../assets/style/variables";
+
+::ng-deep app-text .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding-top: 5px;
+  padding-bottom: 12px;
+}
+.input-title{
+  font-size: 14px;
+  font-family: get-font(primary-semibold) !important;
+  color: get-color(secondary);
+}

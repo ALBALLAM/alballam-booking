@@ -1,0 +1,79 @@
+<ng-container *ngIf="!showOtp">
+  <div class="language-{{currentLang}}">
+    <div class="authentication-title">{{'AUTHENTICATION.SIGN_UP_TITLE' | translate}}</div>
+    <div class="authentication-form">
+      <form *ngIf="form" [formGroup]="form" fxLayout="column" fxFlexFill>
+        <app-text id="email" label="{{'AUTHENTICATION.SIGN_UP_EMAIL_FIELD' | translate }}"
+                  [group]="form" name="email" required="true" [currentLang]="currentLang"
+                  appearance="outline" (keyUpEvent)="removeErrorMessage();"
+                  [patternErrorMessage]="emailPatternErrorMessage"></app-text>
+        <app-text label="{{'AUTHENTICATION.SIGN_UP_NAME_FIELD' | translate }}"
+                  [group]="form" name="name" required="true" [currentLang]="currentLang"
+                  appearance="outline" (keyUpEvent)="removeErrorMessage();"></app-text>
+        <app-password label="{{ 'AUTHENTICATION.SIGN_UP_PASSWORD_FIELD' | translate }}"
+                      [group]="form" name="password" required="true" [currentLang]="currentLang"
+                      appearance="outline" (keyUpEvent)="removeErrorMessage()"></app-password>
+        <app-password label="{{ 'AUTHENTICATION.SIGN_UP_CONFIRM_PASSWORD_FIELD' | translate }}"
+                      [group]="form" name="confirm_password" required="true" [currentLang]="currentLang"
+                      appearance="outline" (keyUpEvent)="removeErrorMessage()"></app-password>
+        <app-phone-number id="number" label="{{ 'AUTHENTICATION.SIGN_UP_MOBILE_FIELD' | translate }}"
+                          [group]="form" name="number" [currentLang]="currentLang"
+                          appearance="outline" (keyUpEvent)="removeErrorMessage();">
+        </app-phone-number>
+        <mat-error class="auth-error" *ngIf="errorMessage">{{errorMessage}}</mat-error>
+        <div class="margin-bottom-40">
+          <button [disabled]="!form.valid" mat-raised-button color="primary"
+                  (click)="onSubmit()"
+                  class="authentication-button">
+            {{'AUTHENTICATION.SIGN_UP_BUTTON' | translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="showOtp">
+  <div>
+    <div class="back-div clickable language-{{currentLang}}" (click)="back()" fxLayout="row" fxLayoutAlign="start center">
+      <div fxLayout="row" fxLayoutAlign="center center" class="back-arrow rotate-icon-{{currentLang}}">
+        <mat-icon svgIcon="back"></mat-icon>
+      </div>
+      <span class="back-name">{{'COMMON.BACK' | translate}}</span>
+    </div>
+    <div class="authentication-title language-{{currentLang}}" style="margin-bottom: 20px">{{'AUTHENTICATION.SIGN_UP_TITLE_OTP' | translate}}</div>
+    <div class="authentication-form">
+      <form *ngIf="formOTP" [formGroup]="formOTP" (ngSubmit)="onSubmitOTP()" fxLayout="column"
+            fxFlexFill>
+        <div fxLayout="row" fxLayoutGap="10px" class="parent-otp"
+             fxLayoutAlign="center">
+          <div *ngFor="let number of [1,2,3,4]" class="otp-input">
+            <mat-form-field [formGroup]="formOTP">
+              <input matInput id="otp{{number}}" name="otp{{number}}" pattern="[0-9]*" inputmode="numeric"
+                     [formControl]="formOTP.controls['otp'+number]"
+                     maxlength="1"
+                     type="text"
+                     (keypress)="checkNumber($event, number)"
+                     (keyup)="switchOtpField($event, number)"/>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="center" *ngIf="errorMessage">
+          <mat-error class="auth-error otp-error">{{errorMessage}}</mat-error>
+        </div>
+      </form>
+    </div>
+    <div class="authentication-subtitle">{{'AUTHENTICATION.SIGN_UP_SUBTITLE_OTP' | translate}}</div>
+    <div *ngIf="formOTP" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="resend-buttons">
+      <button [disabled]="otpDisabled" mat-raised-button color="primary"
+              (click)="resendOtp()"
+              class="authentication-button responsive-button-otp">
+        {{'AUTHENTICATION.SIGN_UP_OTP_BUTTON_EMAIL' | translate}}
+      </button>
+      <!--<button [disabled]="otpDisabled" mat-raised-button color="primary"-->
+              <!--(click)="resendOtp(false)"-->
+              <!--class="authentication-button-secondary responsive-button-otp">-->
+        <!--{{'AUTHENTICATION.SIGN_UP_OTP_BUTTON_PHONE' | translate}}-->
+      <!--</button>-->
+    </div>
+  </div>
+</ng-container>

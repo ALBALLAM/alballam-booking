@@ -1,0 +1,47 @@
+<div class="details-container language-{{currentLang}}">
+  <div [ngTemplateOutlet]="backContainer"></div>
+  <form *ngIf="form" [formGroup]="form">
+    <div class="background-container">
+      <div class="section-title">{{'CONTACT_US.TITLE' | translate}}</div>
+      <div class="margin-top">
+        <div class="contact-us-form">
+          <div fxLayout="column" fxFlexFill>
+            <app-text id="email" label="{{'CONTACT_US.EMAIL_LABEL' | translate }}"
+                      [group]="form" name="email" required="true" [currentLang]="currentLang"
+                      appearance="outline"
+                      [patternErrorMessage]="emailPatternErrorMessage"></app-text>
+            <app-text label="{{'CONTACT_US.NAME_LABEL' | translate }}"
+                      [group]="form" name="name" required="true" [currentLang]="currentLang"
+                      appearance="outline"></app-text>
+            <app-phone-number id="number" label="{{ 'CONTACT_US.PHONE_LABEL' | translate }}"
+                              [group]="form" name="number" [currentLang]="currentLang"
+                              appearance="outline">
+            </app-phone-number>
+            <app-text-area label="{{'CONTACT_US.MESSAGE_LABEL' | translate }}"
+                           [group]="form" name="message" required="true" [currentLang]="currentLang"
+                           appearance="outline"></app-text-area>
+            <div>
+              <re-captcha site_key="{{siteKey}}" [size]="isResponsive?'compact':'normal'"
+                          (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end center" class="margin-top">
+      <button fxFlex="30" fxFlex.xs="100" [disabled]="!form.valid || !validCaptcha" mat-raised-button color="primary"
+              (click)="submitForm()"
+              class="primary-button contact-us-button">{{'COMMON.SUBMIT' | translate}}
+      </button>
+    </div>
+  </form>
+</div>
+<ng-template #backContainer>
+  <div class="back-div clickable language-{{currentLang}}" fxLayout="row" fxLayoutAlign="start center"
+       (click)="back()">
+    <div fxLayout="row" fxLayoutAlign="center center" class="back-arrow rotate-icon-{{currentLang}}">
+      <mat-icon svgIcon="back"></mat-icon>
+    </div>
+    <span class="back-name">{{'COMMON.BACK' | translate}}</span>
+  </div>
+</ng-template>

@@ -1,0 +1,146 @@
+<div fxLayout="column">
+  <div class="profile-main-container language-{{currentLang}}" fxLayout.gt-xs="row" fxLayout.gt-md="row"
+       fxLayout="column">
+    <div fxFlex.gt-xs="35" fxFlex.gt-md="25" fxFlex="100" class="profile-parent">
+      <form *ngIf="profileResponse && form" [formGroup]="form" (ngSubmit)="saveProfile()">
+        <!--<div [dir]="direction" fxLayout="column" fxLayoutAlign="center end">-->
+          <!--<div class="wallet-div" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">-->
+            <!--<mat-icon svgIcon="wallet-icon"></mat-icon>-->
+            <!--<span class="wallet-number">{{'COMMON.CURRENCY'|translate}} {{profileResponse.wallet | number}}</span>-->
+          <!--</div>-->
+        <!--</div>-->
+        <div fxLayout="row" fxLayoutAlign="center start">
+          <div *ngIf="profileResponse.image && profileResponse.image!==''" class="profile-image-div clickable"
+               (click)="openImage($event,profileResponse.image)"
+               [style.background-image]="'url(' + profileResponse.image + ')'">
+            <div class="circle-icon-container clickable" #trigger="matMenuTrigger"
+                 [matMenuTriggerFor]="profilePicMenu"
+                 (click)="stopPropagation($event)" fxLayout="row"
+                 fxLayoutAlign="center center">
+              <mat-icon svgIcon="edit-icon"></mat-icon>
+            </div>
+          </div>
+          <div *ngIf="!profileResponse.image || profileResponse.image==''" class="profile-image-div">
+            <div class="circle-icon-container clickable" #trigger="matMenuTrigger"
+                 [matMenuTriggerFor]="profilePicMenu"
+                 (click)="stopPropagation($event)" fxLayout="row"
+                 fxLayoutAlign="center center">
+              <mat-icon svgIcon="edit-icon"></mat-icon>
+            </div>
+          </div>
+          <input class="display-none" #fileInput type="file" accept="image/*"
+                 (change)="handleSingleImageUpload($event);">
+        </div>
+        <div fxLayout="column" class="profile-form">
+          <app-text id="email" label="{{'PROFILE.YOUR_EMAIL' | translate }}"
+                    [group]="form" name="email" required="true" [currentLang]="currentLang"
+                    appearance="outline" [disabled]="profileResponse.isEmail"
+                    [patternErrorMessage]="emailPatternErrorMessage"></app-text>
+          <app-text label="{{('PROFILE.YOUR_NAME' | translate)}}"
+                    [group]="form" name="name" required="true"
+                    appearance="outline"></app-text>
+          <app-phone-number id="number" label="{{ 'PROFILE.YOUR_PHONE' | translate }}"
+                            [disabled]="!profileResponse.isEmail"
+                            [group]="form" name="number" [currentLang]="currentLang"
+                            appearance="outline">
+          </app-phone-number>
+          <button [disabled]="!form.valid" mat-raised-button color="primary"
+                  class="primary-button">
+            {{'COMMON.SAVE' | translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+    <div fxFlex.gt-xs="65" fxFlex.gt-md="75" fxFlex="100" class="events-div" [dir]="direction">
+      <mat-tab-group #tabs [(selectedIndex)]="selectedTab">
+        <mat-tab label="{{'PROFILE.UPCOMING_TITLE'|translate}}" [ngClass]="selectedTab===0?'selected-tab':''">
+          <div *ngIf="upcomingEvents && upcomingEvents.length>0" class="padding-{{currentLang}}">
+            <div fxLayout="row wrap" fxLayoutGap="20px">
+              <ng-container *ngFor="let event of upcomingEvents">
+                <div fxFlex.gt-sm="0 1 calc(33.3% - 20px)"
+                     fxFlex="0 1 calc(100% - 20px)"
+                     fxFlex.md="0 1 calc(50% - 20px)"
+                     fxFlex.gt-xs="0 1 calc(100% - 20px)" class="item-show">
+                  <app-show-detail [currentLang]="currentLang" [image]="event.image" [title]="event.showName"
+                                   [date]="event.date" [time]="event.time" [timezone]="event.timezone"
+                                   [status]="'confirmed'" [showCalendarButton]="true"
+                                   [showRefund]="false"
+                                   [statusName]="('PROFILE.CONFIRMED'|translate)"
+                                   (viewReceipt)="viewReceiptPopup(event)"
+                                   (refundTickets)="viewRefundPopup(event)"
+                                   (openCalendarPopUp)="openCalendarPopUp(event)"
+                                   [ticketNumber]="event.tickets.length"></app-show-detail>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div *ngIf="!upcomingEvents || upcomingEvents.length===0 && !isLoading" class="empty-tab" fxLayout="column"
+               fxLayoutGap="40px">
+            <div class="empty-event-image"></div>
+            <div class="empty-event-sentence">{{'PROFILE.EMPTY_UPCOMING'|translate}}</div>
+          </div>
+        </mat-tab>
+        <mat-tab label="{{'PROFILE.PAST_TITLE'|translate}}" [ngClass]="selectedTab===1?'selected-tab':''">
+          <div *ngIf="pastEvents && pastEvents.length>0" class="padding-{{currentLang}}">
+            <div fxLayout="row wrap" fxLayoutGap="20px">
+              <ng-container *ngFor="let event of pastEvents">
+                <div fxFlex.gt-sm="0 1 calc(33.3% - 20px)"
+                     fxFlex="0 1 calc(100% - 20px)"
+                     fxFlex.md="0 1 calc(50% - 20px)"
+                     fxFlex.gt-xs="0 1 calc(100% - 20px)" class="item-show">
+                  <app-show-detail [currentLang]="currentLang" [image]="event.image" [title]="event.showName"
+                                   [date]="event.date" [time]="event.time" [timezone]="event.timezone" (viewReceipt)="viewReceiptPopup(event)"
+                                   [ticketNumber]="event.tickets.length"></app-show-detail>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div *ngIf="!pastEvents || pastEvents.length===0 && !isLoading" class="empty-tab" fxLayout="column"
+               fxLayoutGap="40px">
+            <div class="empty-event-image"></div>
+            <div class="empty-event-sentence">{{'PROFILE.EMPTY_PAST'|translate}}</div>
+          </div>
+        </mat-tab>
+        <!--<mat-tab label="{{'PROFILE.REFUNDED_TITLE'|translate}}" [ngClass]="selectedTab===2?'selected-tab':''">-->
+          <!--<div *ngIf="refundedEvents && refundedEvents.length>0" class="padding-{{currentLang}}">-->
+            <!--<div fxLayout="row wrap" fxLayoutGap="20px">-->
+              <!--<ng-container *ngFor="let event of refundedEvents">-->
+                <!--<div fxFlex.gt-sm="0 1 calc(33.3% - 20px)"-->
+                     <!--fxFlex="0 1 calc(100% - 20px)"-->
+                     <!--fxFlex.md="0 1 calc(50% - 20px)"-->
+                     <!--fxFlex.gt-xs="0 1 calc(100% - 20px)" class="item-show">-->
+                  <!--<app-show-detail [currentLang]="currentLang" [image]="event.image" [title]="event.showName"-->
+                                   <!--[date]="event.date" [time]="event.time"-->
+                                   <!--[ticketNumber]="event.ticketNumber"-->
+                                   <!--[amountRefunded]="event.refundedAmount"-->
+                                   <!--[status]="'canceled'"-->
+                                   <!--[statusName]="('PROFILE.CANCELED'|translate)"-->
+                                   <!--[showViewDetails]="false"></app-show-detail>-->
+                <!--</div>-->
+              <!--</ng-container>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div *ngIf="!refundedEvents || refundedEvents.length===0 && !isLoading" class="empty-tab" fxLayout="column"-->
+               <!--fxLayoutGap="40px">-->
+            <!--<div class="empty-event-image"></div>-->
+            <!--<div class="empty-event-sentence">{{'PROFILE.EMPTY_REFUNDED'|translate}}</div>-->
+          <!--</div>-->
+        <!--</mat-tab>-->
+      </mat-tab-group>
+      <div id="get-additional" class="empty-div">&nbsp;</div>
+    </div>
+  </div>
+</div>
+
+<mat-menu #profilePicMenu="matMenu" class="mat-menu-wrapper" [dir]="direction">
+  <div mat-menu-item class="edit-icon-wrapper" (click)="stopPropagation($event);triggerFileInput($event)">
+    <div class="mat-menu-text">{{profileResponse && profileResponse.image && profileResponse.image !==
+      ''?('PROFILE.UPDATE_IMAGE' | translate):('PROFILE.ADD_IMAGE' | translate)}}
+    </div>
+  </div>
+  <div *ngIf="profileResponse && profileResponse.image && profileResponse.image !== ''" mat-menu-item
+       class="edit-icon-wrapper"
+       (click)="deleteProfileImage()">
+    <div class="mat-menu-text">{{'PROFILE.DELETE_IMAGE' | translate}}</div>
+  </div>
+</mat-menu>

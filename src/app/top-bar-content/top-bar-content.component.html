@@ -1,0 +1,141 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="language-{{currentLang}}">
+  <div fxFlex.xs="140px" fxFlex="180px" class="top-bar-logo clickable"
+       [routerLink]="'/'+routeVariables.dashboard"></div>
+  <div fxFlex="grow">
+    <div fxShow.md fxShow.gt-sm fxHide fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px"
+         fxLayoutGap.gt-md="50px" fxLayoutGap.md="15px">
+      <div [matMenuTriggerFor]="languageMenu" class="language-parent clickable">
+        {{defaultLanguage.text}}
+      </div>
+      <div [ngClass]="(currentRoute === '/'+routeVariables.dashboard || currentRoute === '/'+routeVariables.dashboard_full)?'selected-item':''" class="menu-sentence clickable"
+           [routerLink]="'/'+routeVariables.dashboard">{{'TOP_BAR.HOME' | translate}}
+      </div>
+      <div [ngClass]="currentRoute === '/'+routeVariables.aboutUs?'selected-item':''" class="menu-sentence clickable" [routerLink]="'/'+routeVariables.aboutUs">{{'TOP_BAR.ABOUT_US' | translate}}
+      </div>
+      <div [ngClass]="currentRoute === '/'+routeVariables.howItWorks?'selected-item':''" class="menu-sentence clickable" [routerLink]="'/'+routeVariables.howItWorks">{{'TOP_BAR.HOW_IT_WORKS' | translate}}
+      </div>
+      <div [ngClass]="currentRoute === '/'+routeVariables.plays?'selected-item':''" class="menu-sentence clickable" [routerLink]="'/'+routeVariables.plays">{{'TOP_BAR.PLAYS' | translate}}</div>
+      <div [ngClass]="currentRoute === '/'+routeVariables.faqs?'selected-item':''" class="menu-sentence clickable" [routerLink]="'/'+routeVariables.faqs">{{'TOP_BAR.FAQs' | translate}}</div>
+      <div [ngClass]="currentRoute === '/'+routeVariables.contactUs?'selected-item':''" class="menu-sentence clickable" [routerLink]="'/'+routeVariables.contactUs">{{'TOP_BAR.CONTACT_US' | translate}}
+      </div>
+      <div *ngIf="!isAuthenticated" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+        <div class="sign-in-button clickable" [routerLink]="'/'+routeVariables.signIn">
+          {{'TOP_BAR.LOGIN' | translate}}
+        </div>
+        <div class="sign-up-button clickable" [routerLink]="'/'+routeVariables.signUp">
+          {{'TOP_BAR.REGISTER' | translate}}
+        </div>
+      </div>
+      <div *ngIf="isAuthenticated" fxLayout="row" fxLayoutAlign="start center"
+           class="clickable language-{{currentLang}} margin-right-{{currentLang}}"
+           #trigger="matMenuTrigger" [matMenuTriggerFor]="profileMenu">
+        <div *ngIf="profileImage" class="profile-image" [style.background-image]="'url(' + profileImage + ')'"></div>
+        <div *ngIf="!profileImage" class="profile-image"></div>
+        <div [dir]="direction" fxLayout="column" fxLayoutAlign="center start">
+          <div class="profile-name">{{profileName}}</div>
+          <!--<div class="wallet-info" fxLayout="row" fxLayoutGap="2px" fxLayoutAlign="center center">-->
+            <!--<mat-icon svgIcon="wallet-icon"></mat-icon>-->
+            <!--<span>{{'COMMON.CURRENCY'|translate}} {{wallet | number}}</span>-->
+          <!--</div>-->
+        </div>
+        <div class="profile-arrow" fxLayout="row" fxLayoutAlign="center center">
+          <mat-icon svgIcon="arrow-down"></mat-icon>
+        </div>
+      </div>
+    </div>
+    <div fxShow fxHide.gt-sm fxHide.md fxLayout="row" fxLayoutAlign="end center">
+      <div [matMenuTriggerFor]="responsiveMenu" class="clickable">
+        <mat-icon svgIcon="menu"></mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-menu #languageMenu="matMenu" class="language-menu">
+  <div fxFlex="100" fxLayout="column">
+    <div *ngFor="let language of languages;let i=index" class="language-item clickable"
+         (click)="changeLanguage(language)"
+         fxLayout="column" fxLayoutAlign="center center">
+      <div class="language-name">{{language.text}}</div>
+      <div *ngIf="i!==languages.length-1" class="separator"></div>
+    </div>
+  </div>
+</mat-menu>
+
+<mat-menu #responsiveMenu="matMenu" class="responsive-menu" xPosition="before">
+  <div fxLayout="column">
+    <div *ngIf="!isAuthenticated" mat-menu-item [routerLink]="'/'+routeVariables.signIn"
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}">
+      {{'TOP_BAR.LOGIN_RESPONSIVE' | translate}}
+    </div>
+    <div *ngIf="!isAuthenticated" mat-menu-item [routerLink]="'/'+routeVariables.signUp"
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}">
+      {{'TOP_BAR.REGISTER_RESPONSIVE' | translate}}
+    </div>
+    <div [routerLink]="'/'+routeVariables.dashboard" mat-menu-item
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}">
+      {{'TOP_BAR.HOME' | translate}}
+    </div>
+    <div mat-menu-item [routerLink]="'/'+routeVariables.aboutUs"
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}">
+      {{'TOP_BAR.ABOUT_US' | translate}}
+    </div>
+    <div mat-menu-item [routerLink]="'/'+routeVariables.howItWorks"
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}">
+      {{'TOP_BAR.HOW_IT_WORKS' | translate}}
+    </div>
+    <div mat-menu-item [routerLink]="'/'+routeVariables.plays"
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}">
+      {{'TOP_BAR.PLAYS' | translate}}
+    </div>
+    <div mat-menu-item [routerLink]="'/'+routeVariables.faqs"
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}">
+      {{'TOP_BAR.FAQs' | translate}}
+    </div>
+    <div mat-menu-item [routerLink]="'/'+routeVariables.contactUs"
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}">
+      {{'TOP_BAR.CONTACT_US' | translate}}
+    </div>
+    <div mat-menu-item
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}"
+         #languageTrigger="matMenuTrigger"
+         fxLayout="row" fxLayoutAlign="space-between center" [matMenuTriggerFor]="languageMenu">
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+        <div>{{defaultLanguage.fullText}}</div>
+      </div>
+      <div class="arrow-div-image"></div>
+    </div>
+    <div *ngIf="isAuthenticated" mat-menu-item
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}"
+         [routerLink]="'/'+routeVariables.profile">
+      {{'TOP_BAR.PROFILE' | translate}}
+    </div>
+    <div *ngIf="isAuthenticated" mat-menu-item
+         class="responsive-menu-item responsive-menu-underline clickable mat-menu-item language-{{currentLang}}"
+         (click)="changePasswordDialog($event)">
+      {{'TOP_BAR.CHANGE_PASSWORD' | translate}}
+    </div>
+    <div *ngIf="isAuthenticated" mat-menu-item
+         class="responsive-menu-item clickable mat-menu-item language-{{currentLang}}"
+         (click)="logoutUserDialog()">
+      {{'COMMON.LOGOUT' | translate}}
+    </div>
+  </div>
+</mat-menu>
+
+<mat-menu #profileMenu="matMenu" class="responsive-menu" xPosition="before">
+  <div fxLayout="column">
+    <div mat-menu-item class="responsive-menu-item clickable mat-menu-item language-{{currentLang}}"
+         [routerLink]="'/'+routeVariables.profile">
+      {{'TOP_BAR.PROFILE' | translate}}
+    </div>
+    <div mat-menu-item class="responsive-menu-item clickable mat-menu-item language-{{currentLang}}"
+         (click)="changePasswordDialog($event)">
+      {{'TOP_BAR.CHANGE_PASSWORD' | translate}}
+    </div>
+    <div mat-menu-item class="responsive-menu-item clickable mat-menu-item language-{{currentLang}}"
+         (click)="logoutUserDialog()">
+      {{'COMMON.LOGOUT' | translate}}
+    </div>
+  </div>
+</mat-menu>

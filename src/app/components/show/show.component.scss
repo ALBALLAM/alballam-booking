@@ -1,0 +1,59 @@
+@import '../../../assets/style/variables';
+
+.show {
+  height: 100%;
+  color: get-color('secondary_black');
+
+  .show-image {
+    width: 100%;
+    height: 290px;
+    background-repeat: no-repeat;
+    background-color: grey;
+    background-position: center;
+    background-size: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .show-title{
+    font-size: 18px;
+    font-family: get-font(primary-bold) !important;
+    font-weight: bold;
+    //margin-bottom: 15px;
+    //min-height: 54px;
+  }
+  .show-label{
+    color: #222222;
+    font-size: 16px;
+  }
+  .show-date{
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+  .show-book-button {
+    border-radius: 9px;
+    color: get-color(secondary);
+    background-color: get-color('white');
+    border: solid 1px get-color(secondary);
+    font-family: get-font(primary-bold) !important;
+    font-weight: bold;
+    font-size: 11px;
+  }
+  .show-book-button-hover {
+    border-radius: 9px;
+    color: get-color(secondary);
+    background-color: get-color(primary);
+    font-family: get-font(primary-bold) !important;
+    font-weight: bold;
+    font-size: 11px;
+  }
+}
+@media only screen and (max-width: 960px) {
+  .show-image{
+    height: 180px !important;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .show-title{
+    font-size: 15px !important;
+  }
+}

@@ -1,0 +1,98 @@
+<div [dir]="direction">
+  <div *ngIf="carousselData" class="dashboard-carousel-container">
+    <ngu-carousel #myCarousel [inputs]="carouselTile"
+                  [dataSource]="carousselData">
+      <ngu-tile class="padding-none" *nguCarouselDef="let record; let j = index" (click)="bookShow(record)">
+        <div class="dashboard-carousel-item" fxLayout="row" fxLayoutAlign="center center"
+             [style.background-image]="'url(' + record.cover + ')'">
+          <div fxLayout="column">
+            <h1 class="carousel-show-title">{{record.showName[currentLang]}}</h1>
+            <!--<h2 class="carousel-show-theater">{{record.theaterName[currentLang]}}</h2>-->
+            <div fxLayoutAlign="center center">
+              <button mat-raised-button color="primary"
+                      class="carousel-book-button">{{ 'DASHBOARD.BOOK' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </ngu-tile>
+      <ul class="carousel-point" NguCarouselPoint>
+        <li *ngFor="let j of myCarousel.pointNumbers; let j = index"
+            [class.active]="j==myCarousel.activePoint"
+            (click)="myCarousel.moveTo(j)"></li>
+      </ul>
+    </ngu-carousel>
+  </div>
+
+  <!--<div *ngIf="recentPlays" class="main-container-layout">-->
+    <!--<div fxLayout="row" fxLayoutAlign="space-between">-->
+      <!--<div class="page-title">{{'DASHBOARD.RECENT_PLAYS' | translate}}</div>-->
+    <!--</div>-->
+    <!--<div class="plays-container" *ngIf="!platform.isMobile && !platform.isTablet; else responsiveContainer">-->
+      <!--<ngu-carousel #myCarousel [inputs]="carouselTile2"-->
+                    <!--[dataSource]="recentPlays">-->
+        <!--<ngu-tile class="padding-none" *nguCarouselDef="let record; let j = index" (click)="bookShow(record)">-->
+          <!--<div class="show-list-item">-->
+            <!--<app-show [currentLang]="currentLang" image="{{record.image}}" title="{{record.showName[currentLang]}}"></app-show>-->
+          <!--</div>-->
+        <!--</ngu-tile>-->
+        <!--<ul class="carousel-point" NguCarouselPoint>-->
+          <!--<li *ngFor="let j of myCarousel.pointNumbers; let j = index"-->
+              <!--[class.active]="j==myCarousel.activePoint"-->
+              <!--(click)="myCarousel.moveTo(j)"></li>-->
+        <!--</ul>-->
+      <!--</ngu-carousel>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <div *ngIf="featuredActors" class="main-container-layout">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <h2 class="page-title">{{'DASHBOARD.FEATURED_ACTORS' | translate}}</h2>
+    </div>
+    <div class="plays-container" *ngIf="!platform.isMobile && !platform.isTablet; else responsiveContainer">
+      <ngu-carousel #myCarousel [inputs]="carouselTile2"
+                    [dataSource]="featuredActors">
+        <ngu-tile class="padding-none non-clickable" *nguCarouselDef="let record; let j = index">
+          <div class="show-list-item">
+            <app-show [showBookButton]="false"
+                      [label]="record.label"
+                      [currentLang]="currentLang" image="{{record.image}}" title="{{record.name}}"></app-show>
+          </div>
+        </ngu-tile>
+        <ul class="carousel-point" NguCarouselPoint>
+          <li *ngFor="let j of myCarousel.pointNumbers; let j = index"
+              [class.active]="j==myCarousel.activePoint"
+              (click)="myCarousel.moveTo(j)"></li>
+        </ul>
+      </ngu-carousel>
+    </div>
+  </div>
+</div>
+
+<ng-template #responsiveContainer>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <div class="plays-container" fxLayout="column">
+      <div fxLayout="row" class="scrollable-x">
+        <cdk-virtual-scroll-viewport #container
+                                     itemSize="1"
+                                     orientation="horizontal"
+                                     class="scrollable-container">
+          <!--<div *cdkVirtualFor="let record of recentPlays;let i=index;" (click)="bookShow(record)">-->
+            <!--<div class="show-list-item show-list-item-responsive">-->
+              <!--<app-show [currentLang]="currentLang" image="{{record.image}}" title="{{record.showName[currentLang]}}"-->
+                        <!--(bookShowEvent)="bookShow(record)"></app-show>-->
+            <!--</div>-->
+          <!--</div>-->
+          <div *cdkVirtualFor="let record of featuredActors;let i=index;">
+            <div class="show-list-item show-list-item-responsive">
+              <app-show [showBookButton]="false"
+                        [label]="record.label"
+                        [currentLang]="currentLang" image="{{record.image}}" title="{{record.name}}"></app-show>
+            </div>
+          </div>
+        </cdk-virtual-scroll-viewport>
+      </div>
+
+    </div>
+  </div>
+</ng-template>

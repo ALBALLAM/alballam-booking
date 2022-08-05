@@ -1,0 +1,13 @@
+@import "../../../../assets/style/variables";
+.input-search {
+  padding: 12px 0;
+  padding-left: 5px;
+  border-bottom: 1px solid #acacac;
+}
+
+.input-title{
+  font-size: 14px;
+  font-family: get-font(primary-semibold) !important;
+  color: get-color(secondary);
+}
+

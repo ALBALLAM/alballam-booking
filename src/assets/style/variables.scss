@@ -1,0 +1,66 @@
+$colors: (
+  'primary': #FEBF24,
+  'secondary':#000,
+  'secondary_opacity':rgba(0, 0, 0, 0.5),
+  'secondary_black':#222222,
+  'third_black':#171717,
+  'third':#db871a,
+  'forth':#1e1e1e,
+  'white':#fff,
+  'border-line':rgba(0, 0, 0, 0.2),
+  'footer':#494949,
+  'background': #f5f6fa,
+  'form-border':#e5e5e5,
+  'form-placeholder':#a9a9a9,
+  'pending-status':#fdc02f,
+  'completed-status':#10dc8e,
+  'declined-status':#f04f48,
+  'border-container':#dde3e8,
+  'bill-info': #b6b6b6,
+  'bill-value':#363636,
+  'footer-background': #1e1e1e
+);
+
+$shadows: (
+  'primary': 0 2px 9px 0 rgba(0, 0, 0, 0.08),
+  'secondary': 0 2px 11px 0 rgba(0, 0, 0, 0.1)
+);
+
+$fonts: (
+  'primary-regular': 'Mada',
+  'primary-semibold': 'Mada-SemiBold',
+  'primary-bold': 'Mada-Bold'
+);
+
+
+@function get-color($color) {
+  @return map-get($colors, $color);
+}
+
+@function get-color($color) {
+  @return map-get($colors, $color);
+}
+
+@function get-shadow($shadow) {
+  @return map-get($shadows, $shadow);
+}
+
+@function get-font($font) {
+  @return map-get($fonts, $font);
+}
+
+// Labels
+$page-title: 32px;
+$section-title-size: 25px;
+$value-size: 18px;
+$headline-size: 16px;
+$title-size: 14px;
+$sub-title-size: 12px;
+
+// Text Input
+$input-title-size: 14px;
+
+$button-border-radius: 27px;
+
+//Borders
+$dashed-border: dashed 0.9px #63638c;

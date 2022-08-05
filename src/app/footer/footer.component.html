@@ -1,0 +1,86 @@
+<div class="footer-container language-{{currentLang}}">
+  <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="start start"
+    class="row-separator">
+    <div fxLayout="row">
+      <div class="footer-logo"></div>
+    </div>
+    <div fxLayout="row">
+      <span class="footer-icon clickable">
+        <mat-icon svgIcon="insta"></mat-icon>
+      </span>
+      <span class="footer-icon clickable">
+        <mat-icon svgIcon="facebook"></mat-icon>
+      </span>
+      <span class="footer-icon clickable">
+        <mat-icon svgIcon="twitter"></mat-icon>
+      </span>
+      <span class="footer-icon clickable">
+        <mat-icon svgIcon="google-plus"></mat-icon>
+      </span>
+      <span class="footer-icon clickable">
+        <mat-icon svgIcon="link"></mat-icon>
+      </span>
+    </div>
+  </div>
+  <div fxLayout.gt-sm="row" fxLayout="column">
+    <div fxLayout="column" fxFlex="100" fxFlex.gt-xs="30">
+      <div class="footer-title first-column-separator">{{'FOOTER.INFORMATION' | translate}}</div>
+      <div class="footer-links clickable" [routerLink]="'/'+routeVariables.aboutUs">{{'FOOTER.ABOUT_US' | translate}}
+      </div>
+      <div class="footer-links clickable" [routerLink]="'/'+routeVariables.howItWorks">{{'FOOTER.HOW_IT_WORKS' |
+        translate}}</div>
+      <!--<div class="footer-links clickable" [routerLink]="'/'+routeVariables.terms">Terms and Conditions</div>-->
+      <div class="footer-links clickable" [routerLink]="'/'+routeVariables.faqs">{{'FOOTER.FAQS' | translate}}</div>
+    </div>
+
+    <div fxLayout="column" fxFlex="100" fxFlex.gt-xs="30">
+      <div class="footer-title second-column-separator">{{'FOOTER.ABOUT_AL_BALLAM' | translate}}</div>
+      <div class="footer-links">
+        <div>{{'FOOTER.LOCATION' | translate}}</div>
+        <div> 567 8900 </div>
+      </div>
+    </div>
+
+    <div fxLayout="column" fxFlex="100" fxFlex.gt-xs="40">
+      <div class="footer-title third-column-separator">{{'FOOTER.CONTACT_US' | translate}}</div>
+      <form *ngIf="form" [formGroup]="form">
+        <div>
+          <div class="margin-top">
+            <div class="contact-us-form">
+              <div fxLayout="column" fxFlexFill>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <div fxFlex="49">
+                    <app-text id="email" label="{{'CONTACT_US.EMAIL_LABEL' | translate }}" [group]="form" name="email"
+                      required="true" [currentLang]="currentLang" appearance="outline"
+                      [patternErrorMessage]="emailPatternErrorMessage"></app-text>
+                  </div>
+                  <div fxFlex="49">
+                    <app-text label="{{'CONTACT_US.NAME_LABEL' | translate }}" [group]="form" name="name"
+                      required="true" [currentLang]="currentLang" appearance="outline"></app-text>
+                  </div>
+                </div>
+                <app-phone-number id="number" label="{{ 'CONTACT_US.PHONE_LABEL' | translate }}" [group]="form"
+                  name="number" [currentLang]="currentLang" appearance="outline">
+                </app-phone-number>
+                <app-text-area label="{{'CONTACT_US.MESSAGE_LABEL' | translate }}" [rows]="4" [group]="form"
+                  name="message" required="true" [currentLang]="currentLang" appearance="outline"></app-text-area>
+                <div>
+                  <re-captcha site_key="{{siteKey}}" [size]="isResponsive?'compact':'normal'"
+                    (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end center" class="margin-top">
+          <button fxFlex="30" fxFlex.xs="100" mat-raised-button color="primary"
+            (click)="!form.valid || !validCaptcha ? '' : submitForm()"
+            class="primary-button contact-us-button">{{'COMMON.SUBMIT' | translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="footer-links">{{'FOOTER.DEVELOPER' | translate}} <a href="https://rentik.co/" target="_blank">Rentik©</a>
+    {{yearToShow}}</div>
+</div>

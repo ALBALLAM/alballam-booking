@@ -1,0 +1,35 @@
+@import "../../../../assets/style/variables";
+
+::ng-deep app-number .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding-top: 5px;
+  padding-bottom: 12px;
+}
+
+::ng-deep app-number {
+  .mat-form-field-suffix {
+    top: 0 !important;
+    width: 70px;
+    font-size: 14px;
+    text-align: center;
+  }
+}
+::ng-deep .mat-menu-panel {
+  min-width: 1px;
+}
+.input-title{
+  font-size: 14px;
+  font-family: get-font(primary-semibold) !important;
+  color: get-color(secondary);
+}
+.margin-top-span{
+  margin-top: 18px;
+}
+.text-prefix{
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix{
+    font-size: 14px;
+    color: #000000;
+    font-family: get-font(primary-semibold) !important;
+    top: 0 !important;
+    margin-right: 3px;
+  }
+}

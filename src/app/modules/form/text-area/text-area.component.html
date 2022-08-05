@@ -1,0 +1,14 @@
+<div>
+  <span *ngIf="title" class="input-title">{{title}}</span>
+  <mat-form-field class="language-{{currentLang}}" [formGroup]="group" [appearance]="appearance? appearance:''">
+    <mat-icon *ngIf="icon || svgIcon" matPrefix [svgIcon]="svgIcon">{{icon}}</mat-icon>
+    <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="rows" [cdkAutosizeMaxRows]="8"
+              [name]="name" [formControl]="group.controls[name]" [disabled]="disabled" [readonly]="disabled" [maxlength]="maxLength"
+              [placeholder]="label" [required]="required">
+          </textarea>
+    <mat-hint *ngIf="hint" class="description-hint">{{hint}}</mat-hint>
+    <mat-error *ngIf="group.get(name).hasError('required')">{{('FORMS.REQUIRED' | translate)}}</mat-error>
+    <mat-error *ngIf="group.get(name).hasError('pattern')">{{patternErrorMessage?patternErrorMessage:('FORMS.INVALID_PATTERN' | translate)}}
+    </mat-error>
+  </mat-form-field>
+</div>

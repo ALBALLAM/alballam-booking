@@ -1,0 +1,28 @@
+$CONSTANTS: (
+  'loading-top': calc(50% - 50px),
+  'loading-left': calc(50% - 50px),
+);
+
+@function const($name) {
+  @if not map-has-key($CONSTANTS, $name) {
+    @error 'Unknown constant `#{$name}`.';
+  }
+
+  @return map-get($CONSTANTS, $name);
+}
+
+.loading-fullscreen {
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.loading-fullscreen-dimmed{
+  background-color: rgba(155, 158, 163, 0.3);
+}

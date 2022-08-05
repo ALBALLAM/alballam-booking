@@ -1,0 +1,10 @@
+<div *ngIf="component" fxLayout="row" class="authentication-main-container">
+  <div fxFlex.gt-sm="60" fxFlex.md="60" fxFlex="100" class="authentication-grey">
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <div fxFlex.gt-sm="50" fxFlex.md="50" fxFlex.gt-xs="65" fxFlex="85">
+        <ng-container appAuthentication [component]="component"></ng-container>
+      </div>
+    </div>
+  </div>
+  <div fxShow.md fxShow.gt-sm fxHide fxFlex="40" class="authentication-image"></div>
+</div>

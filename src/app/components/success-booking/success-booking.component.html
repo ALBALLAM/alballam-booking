@@ -1,0 +1,11 @@
+<div class="dialog-content-container" fxLayout="column" fxLayoutGap="15px" [dir]="data.direction">
+  <div class="ticket-image-div"></div>
+  <div class="ticket-title">
+    <span>{{'DASHBOARD.SUCCESS_TITLE' | translate}}</span>
+    <span *ngIf="data.fromWallet"> {{'DASHBOARD.SUCCESS_FROM_WALLET_1' | translate}} {{'COMMON.CURRENCY'|translate}} {{data.price | number}} {{'DASHBOARD.SUCCESS_FROM_WALLET_2' | translate}}</span>
+  </div>
+  <div class="ticket-subtitle">{{'DASHBOARD.SUCCESS_SUBTITLE' | translate}}</div>
+  <div>
+    <button mat-raised-button color="primary" class="button primary-button ticket-button" (click)="closePopup()">{{'COMMON.OK'|translate}}</button>
+  </div>
+</div>

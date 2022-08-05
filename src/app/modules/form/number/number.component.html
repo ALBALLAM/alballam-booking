@@ -1,0 +1,28 @@
+<div [ngClass]="prefixText && matPrefix?'text-prefix':''">
+  <span *ngIf="title" class="input-title">{{title}}</span>
+  <mat-form-field [ngClass]="titleEmpty?'margin-top-span':''" [formGroup]="group"
+                  [appearance]="appearance? appearance:''">
+    <mat-icon *ngIf="(icon || svgIcon) && matPrefix" matPrefix [svgIcon]="svgIcon">{{icon}}</mat-icon>
+    <mat-icon *ngIf="(icon || svgIcon) && !matPrefix" matSuffix [svgIcon]="svgIcon">{{icon}}</mat-icon>
+    <span *ngIf="prefixText && matPrefix" matPrefix>{{prefixText}}</span>
+    <input matInput [name]="name" [formControl]="group.controls[name]" [placeholder]="label" [required]="required"
+           [disabled]="disabled" pattern="[0-9]*" inputmode="numeric"
+           type="text" (keyup)="onChange($event)" (keypress)="onKeyPress($event)" (blur)="onBlur()"
+           [maxlength]="maxLength" [minlength]="minLength"/>
+    <mat-hint *ngIf="hint">{{hint}}</mat-hint>
+    <mat-error *ngIf="group.get(name).hasError('pattern')">
+      {{patternErrorMessage?patternErrorMessage:('FORMS.INVALID_PATTERN' | translate)}}
+    </mat-error>
+    <mat-error *ngIf="!group.get(name).hasError('pattern') && group.get(name).hasError('expiredDate')">
+      {{('FORMS.EXPIRED_DATE' | translate)}}
+    </mat-error>
+    <mat-error *ngIf="group.get(name).hasError('required')">{{('FORMS.REQUIRED' | translate)}}</mat-error>
+    <mat-error *ngIf="group.get(name).hasError('min')">
+      {{ minError ? minError : ('FORMS.MIN_NUMBER' | translate)}}
+    </mat-error>
+    <mat-error *ngIf="group.get(name).hasError('max')">
+      {{ maxError ? maxError : ('FORMS.MAX_NUMBER' | translate)}}
+    </mat-error>
+  </mat-form-field>
+</div>
+

@@ -1,0 +1,71 @@
+@import '../../assets/style/variables';
+
+.profile-main-container {
+  //min-height: calc(100vh - 120px);
+  position: relative;
+}
+
+.profile-parent {
+  background-color: get-color('white');
+  border: solid 1px get-color('border-container');
+  padding: 15px;
+  padding-top: 30px;
+}
+
+.profile-image-div {
+  width: 125px;
+  height: 125px;
+  position: relative;
+  border-radius: 50%;
+  background-image: url("../../assets/images/img-default.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.circle-icon-container {
+  position: absolute;
+  box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.04);
+  background-color: #fff6e0;
+  border-radius: 10px;
+  bottom: -17px;
+  right: 39%;
+  padding: 5px;
+}
+
+.profile-form {
+  margin-top: 25px;
+}
+
+.item-show {
+  margin-top: 10px;
+}
+
+.empty-div {
+  background-color: get-color('white');
+  border-bottom: solid 1px get-color('border-container');
+  height: 5px;
+  width: 100%;
+}
+
+.wallet-div {
+  border-radius: 11px;
+  background-color: get-color('background');
+  padding: 5px;
+  margin-bottom: 10px;
+  .mat-icon{
+    height: auto;
+  }
+  .wallet-number{
+    font-family: get-font(primary-bold) !important;
+    font-weight: bold;
+    color: get-color('third_black');
+    font-size: 17px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .profile-main-container {
+    min-height: auto !important;
+  }
+}

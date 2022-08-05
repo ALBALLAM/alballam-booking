@@ -1,0 +1,55 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$mat-custom-palette-primary: (
+  50: #fff7e5,
+  100: #ffecbd,
+  200: #ffdf92,
+  300: #fed266,
+  400: #fec945,
+  500: #febf24,
+  600: #feb920,
+  700: #feb11b,
+  800: #fea916,
+  900: #fd9b0d,
+  A100: #ffffff,
+  A200: #fffaf5,
+  A400: #ffe4c2,
+  A70: #ffd9a8,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+$custom-app-primary: mat-palette($mat-custom-palette-primary);
+$custom-app-accent: mat-palette($mat-orange, A200, A100, A400);
+$custom-app-warn: mat-palette($mat-red, A700);
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Mada'
+);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$custom-theme: mat-light-theme($custom-app-primary, $custom-app-accent, $custom-app-warn);
+
+@include angular-material-theme($custom-theme);
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Mada'
+);
+@include angular-material-typography($custom-typography);
+
+@include mat-core($custom-typography);

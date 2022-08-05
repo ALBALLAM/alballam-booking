@@ -1,0 +1,21 @@
+<div class="dialog-content-container dialog-content-container-{{data.currentLang}}" fxLayout="column" [dir]="data.direction">
+  <div class="countries-title">
+    {{'COMMON.SELECT_COUNTRY'|translate}}
+  </div>
+  <div [dir]="data.direction" fxLayout="row wrap" fxLayoutGap="0px" fxLayoutGap.gt-xs="20px" class="country-parent">
+    <div fxFlex="100" fxFlex.gt-xs="0 1 calc(50% - 20px)" *ngFor="let country of data.countries;let i =index;"
+         class="clickable country-item"
+         [ngClass]="countrySelectedIndex===i?'country-selected-true':'country-selected-false'"
+         (click)="selectCountry(i, country)">
+      <span>{{country.country[data.currentLang]}}</span>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+    <button mat-raised-button color="primary" class="button primary-button cancel-button" (click)="chooseCountry()">
+      {{'COMMON.OK'|translate}}
+    </button>
+    <button mat-raised-button color="primary" class="button secondary-button cancel-button" (click)="closePopup()">
+      {{'COMMON.CANCEL'|translate}}
+    </button>
+  </div>
+</div>

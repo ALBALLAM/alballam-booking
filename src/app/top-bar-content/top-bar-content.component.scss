@@ -1,0 +1,143 @@
+@import '../../assets/style/variables';
+
+.top-bar-logo {
+  width: 100%;
+  height: 50px;
+  background-image: url("../../assets/images/logo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  color: get-color('secondary');
+  font-size: 14px;
+}
+
+.sign-up-button {
+  padding: 10px 40px;
+  background-color: get-color(primary);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: get-font(primary-semibold) !important;
+}
+
+.sign-in-button {
+  padding: 10px 15px;
+  background-color: get-color(white);
+  border: solid 1px get-color('forth');
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: get-font(primary-semibold) !important;
+}
+
+.menu-sentence {
+  font-family: get-font(primary-semibold);
+}
+
+.language-parent {
+  padding: 5px 10px;
+  background-color: get-color(third);
+  border-radius: 25px;
+  min-width: 15px;
+  text-align: center;
+  font-family: get-font(primary-semibold) !important;
+  color: get-color('white');
+  font-size: 12px;
+}
+
+::ng-deep.mat-menu-panel.language-menu {
+  padding: 10px;
+  min-width: 50px;
+  min-height: auto !important;
+}
+
+::ng-deep.mat-menu-content:not(:empty) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.separator {
+  width: 100%;
+  height: 1px;
+  background-color: get-color(border-line);
+  margin: 10px 0;
+}
+
+.language-item {
+
+}
+
+::ng-deep .mat-menu-panel.responsive-menu {
+  max-width: 500px !important;
+  border-radius: 8px !important;
+  min-width: 250px !important;
+  min-height: 65px !important;
+}
+
+.responsive-menu-item {
+  font-size: 16px;
+}
+
+.responsive-menu-underline {
+  border-bottom: solid 1px get-color(border-line);
+}
+
+.arrow-div-image {
+  transform: rotate(180deg);
+  background-image: url("../../assets/icons/arrow-up-grey.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 15px;
+  height: 15px;
+}
+
+.profile-image {
+  background-position: center;
+  background-image: url("../../assets/images/img-default.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 25px;
+  width: 40px;
+  height: 40px;
+}
+
+.profile-name {
+  color: get-color(secondary);
+  font-size: 12px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.wallet-info {
+  color: get-color(secondary_opacity);
+  font-size: 11px;
+  margin-left: 10px;
+  margin-right: 10px;
+  .mat-icon {
+    width: 18px;
+    height: auto;
+  }
+}
+
+.profile-arrow {
+  mat-icon {
+    width: 13px;
+    height: 100%;
+  }
+}
+
+.language-ar{
+  direction: rtl;
+  .sign-in-button{
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .responsive-menu-item {
+    font-size: 14px;
+    height: 40px !important;
+    line-height: 40px !important;
+  }
+}
+

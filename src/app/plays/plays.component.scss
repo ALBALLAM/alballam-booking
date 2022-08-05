@@ -1,0 +1,34 @@
+@import "../../assets/style/variables";
+
+.section-title {
+  border: none !important;
+}
+.play-item{
+  margin-top: 30px;
+}
+.details-container-en{
+  padding: 30px 10px 30px 30px;
+}
+.details-container-ar{
+  padding: 30px 30px 30px 10px;
+}
+.search-padding-en{
+  padding-right: 20px;
+}
+.search-padding-ar{
+  padding-left: 20px;
+}
+.empty-tab{
+  padding-top: 60px;
+}
+@media only screen and (max-width: 600px) {
+  .details-container-en{
+    padding: 20px 0 20px 20px !important;
+  }
+  .details-container-ar{
+    padding: 20px 20px 20px 0 !important;
+  }
+  .play-item{
+    margin-top: 15px !important;
+  }
+}

@@ -1,0 +1,492 @@
+@import '../../assets/style/variables';
+
+.details-container {
+  padding: 30px 50px;
+
+  .package-box {
+    margin: 20px;
+    border: solid 2px rgb(163, 163, 163);
+    padding: 55px 15px 48px 15px;
+    color: rgb(163, 163, 163);
+    border-radius: 18px;
+    position: relative;
+    min-width: 165px;
+    //margin-bottom: 20px;
+    .popular-banner {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      background: linear-gradient(to right, rgb(255, 196, 31), rgb(237, 144, 17));
+      border-top-right-radius: 15px;
+      border-top-left-radius: 15px;
+      top: -1px;
+      width: 100%;
+      margin: auto;
+      text-align: center;
+      font-size: 18px;
+      color: get-color('white');
+      font-family: get-font('primary-bold');
+      font-weight: bold;
+    }
+
+    .package-amount {
+      font-size: 30px;
+      font-family: get-font('primary-bold');
+      font-weight: bold;
+    }
+
+    .package-duration {
+      font-size: 22px;
+      margin-bottom: 12px !important;
+    }
+
+    .package-description {
+      max-width: 140px;
+      font-size: 12px;
+      font-family: get-font('primary-bold');
+      font-weight: bold;
+    }
+
+    .package-sentence {
+      font-size: 13px;
+      font-family: get-font('primary-bold');
+      font-weight: bold;
+      line-height: 14px;
+    }
+  }
+}
+
+
+.paymentMethod-chosen {
+  border: solid 2px #febf24 !important;
+  color: #febf24 !important;
+  background-color: #fff6e0 !important;
+}
+
+.paymentMethod-box {
+  margin: 20px;
+  border: solid 2px rgb(163, 163, 163);
+  background-color: #ffffff !important;
+  padding: 20px;
+  color: rgb(163, 163, 163);
+  border-radius: 18px;
+  position: relative;
+  width: 120px;
+  min-height: 150px;
+
+  .paymentMethod-name {
+    font-size: 13px;
+    font-family: get-font('primary-bold');
+    font-weight: bold;
+  }
+
+  .payment-image {
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+
+.white-container {
+  background-color: get-color('white');
+  border: solid 1px get-color('border-container');
+  border-radius: 3px;
+  padding: 20px;
+}
+
+.order-container {
+  position: relative;
+}
+
+.white-container-date {
+  padding: 10px;
+}
+
+.show-image-details {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 215px;
+  height: 305px;
+  border-radius: 10px;
+}
+
+.show-title-divider {
+  border-bottom: solid 1px get-color('border-container');
+}
+
+.show-details-title {
+  color: get-color('secondary_black');
+  font-size: 28px;
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+}
+
+.show-details {
+  margin-top: 20px;
+
+  .show-details-info {
+    color: get-color('secondary_black');
+    font-size: 17px;
+
+    mat-icon {
+      width: 15px;
+      height: 100%;
+      min-height: 15px;
+      min-width: 15px;
+    }
+  }
+
+  .show-details-info-text {
+    font-family: get-font(primary-bold) !important;
+    font-weight: bold;
+  }
+}
+
+.button-div {
+  margin: 35px 0 20px 0;
+}
+
+.seat-book {
+  width: 100% !important;
+}
+
+.step-one-details {
+  min-width: 150px;
+}
+
+.show-details-book-button {
+  border-radius: 3px;
+  color: get-color(secondary);
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+  font-size: 14px;
+  height: 45px;
+  width: 35%;
+  box-shadow: 0 2px 7px 0 rgba(120, 137, 149, 0.26);
+}
+
+.show-details-book-button-payment {
+  border-radius: 3px;
+  color: get-color(secondary);
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+  font-size: 14px;
+  height: 55px;
+  width: 25% !important;
+  min-width: 120px;
+  box-shadow: 0 2px 7px 0 rgba(120, 137, 149, 0.26);
+}
+
+.button-next {
+  .show-details-book-button {
+    width: 25%;
+  }
+}
+
+.show-details-info-parent {
+  margin: 0 30px;
+}
+
+.show-details-info-child {
+  margin: 3px 7px;
+}
+
+.scrollable-container {
+  height: 65px;
+  width: 100%;
+}
+
+.margin-top {
+  margin-top: 30px;
+}
+
+.date-item {
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  min-width: 160px;
+  text-align: center;
+}
+
+.time-item {
+  min-width: 65px;
+}
+
+.date-selected-false {
+  border: solid 1px #979797;
+  color: #868686;
+}
+
+.date-selected-true {
+  border: solid 1px get-color(primary);
+  color: get-color(primary);
+  background-color: #fff6e0;
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+}
+
+.white-container-padding-less {
+  border-radius: 13px;
+  padding: 30px 10px;
+}
+
+.white-container-padding-bill {
+  padding: 30px 0;
+  border-radius: 13px;
+  border: none;
+}
+
+.step-title {
+  font-size: 18px;
+  padding: 0;
+  padding-bottom: 10px;
+}
+
+.sub-total-div {
+  margin-top: 30px;
+  color: get-color('bill-value');
+  font-size: 14px;
+
+  .sub-total-value {
+    font-family: get-font(primary-bold) !important;
+    font-weight: bold;
+  }
+}
+
+.total-div {
+  position: relative;
+}
+
+.min-height {
+  min-height: 100px;
+}
+
+.padding-left-right-en {
+  padding: 0 20px 0 10px;
+}
+
+.padding-left-right-ar {
+  padding: 0 10px 0 20px;
+}
+
+.padding-left-right-more {
+  padding: 0 20px;
+}
+
+.padding-bottom {
+  padding-bottom: 10px;
+}
+
+.white-dots-div {
+  background-image: url("../../assets/images/receipt.png");
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 35px;
+  width: 100%;
+}
+
+.white-container-booking {
+  border-radius: 13px;
+  padding: 30px;
+
+  .seat-map-image {
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 500px;
+  }
+
+  .zone-container-parent {
+    border: solid 2px #d4d4d4;
+  }
+
+  .zone-container {
+    padding: 10px;
+  }
+
+  .zone-container-border {
+    border-bottom: solid 2px #d4d4d4;
+  }
+
+  .zone-name {
+    font-size: 16px;
+    color: get-color('secondary_black');
+  }
+
+  .price-div {
+    font-size: 16px;
+    color: get-color('secondary_black');
+    font-family: get-font(primary-bold) !important;
+    font-weight: bold;
+  }
+
+  .selected-price {
+    width: 17px;
+
+    mat-icon {
+      width: 17px !important;
+      height: auto !important;
+    }
+  }
+}
+
+.button-next {
+  margin-top: 20px;
+}
+
+.language-ar .button-next-step-title {
+  //float: left;
+  right: unset;
+  left: 10px;
+}
+
+.button-next-step-title {
+  width: 130px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  button {
+    height: 45px !important;
+    //max-width: 200px;
+  }
+}
+
+.play-theater {
+  color: get-color('bill-value');
+  font-size: 14px;
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+}
+
+.play-date {
+  color: #868686;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.bill-info {
+  color: get-color('bill-info');
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.bill-value {
+  color: get-color('bill-value');
+  font-size: 14px;
+}
+
+.total-price {
+  color: get-color(primary);
+  font-size: 15px;
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+}
+
+.space-left {
+  margin-left: 4px;
+}
+
+.margin-top-small {
+  margin-top: 5px;
+}
+
+.seat-hint {
+  font-size: 12px;
+  color: get-color(secondary_black);
+  margin: 15px 0;
+  text-align: center;
+}
+
+@media only screen and (max-width: 960px) {
+  .seat-map-image {
+    height: 315px !important;
+  }
+  .white-dots-div {
+    height: 95px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .white-dots-div {
+    height: 82px;
+  }
+  .details-container {
+    padding: 10px 20px;
+  }
+  .show-details-book-button {
+    width: 100% !important;
+    font-size: 12px !important;
+  }
+  .button-next-step-title {
+    width: calc(100% - 30px) !important;
+    right: 15px !important;
+    left: 15px;
+  }
+  .show-details-title {
+    font-size: 20px !important;
+  }
+  .show-details-info {
+    font-size: 14px !important;
+  }
+  .show-image-details {
+    width: 190px !important;
+    height: 250px !important;
+  }
+  .date-item {
+    font-size: 12px !important;
+    min-width: 130px !important;
+    padding: 5px !important;
+  }
+  .time-item {
+    min-width: 50px !important;
+  }
+  .margin-top {
+    margin-top: 10px !important;
+  }
+  .scrollable-container {
+    height: 52px;
+  }
+  .white-container {
+    padding: 10px !important;
+  }
+  .white-container-padding-bill {
+    padding: 10px 0 !important;
+  }
+  .show-details-info-parent {
+    margin: 0 10px !important;
+  }
+  .seat-map-image {
+    height: 265px !important;
+  }
+}
+
+.margin-span {
+  margin-left: 5px
+}
+
+.normal-font-weight {
+  font-weight: normal !important;
+}
+
+.covid-message {
+  color: get-color('secondary_black');
+  font-size: 12px;
+}
+
+.covid-message-title {
+  color: get-color('secondary_black');
+  font-size: 14px;
+  font-family: get-font(primary-bold) !important;
+  font-weight: bold;
+}

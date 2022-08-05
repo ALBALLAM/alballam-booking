@@ -1,0 +1,23 @@
+@import '../../../assets/style/variables';
+
+.forgot-password {
+  font-size: 15px;
+  color: #494949;
+  text-align: right;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  font-family: get-font(primary-semibold) !important;
+}
+
+.create-account-div {
+  font-size: 14px;
+  color: get-color(secondary);
+  margin-top: 50px;
+  text-align: center;
+
+  .create-account {
+    font-family: get-font(primary-bold) !important;
+    font-weight: bold;
+    margin-left: 5px;
+  }
+}

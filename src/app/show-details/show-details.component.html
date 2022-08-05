@@ -1,0 +1,440 @@
+<ng-container *ngIf="showComponentStep === 1">
+  <div *ngIf="show" class="details-container language-{{ currentLang }}" [dir]="direction">
+    <div *ngIf="show.dates && show.dates.length>0" class="white-container white-container-date">
+      <div class="scrollable-x">
+        <cdk-virtual-scroll-viewport #container [itemSize]="show.dates.length" orientation="horizontal"
+          class="scrollable-container">
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="none center">
+            <div *cdkVirtualFor="let dateObj of show.dates;let i=index;">
+              <div class="date-item clickable"
+                [ngClass]="selectedDateIndex===i?'date-selected-true':'date-selected-false'" (click)="selectDate(i)">
+                <span>{{ dateObj._id | date:'EEEE MMMM d' }}</span>
+              </div>
+            </div>
+          </div>
+        </cdk-virtual-scroll-viewport>
+      </div>
+      <div *ngIf="times && times.length>0" class="scrollable-x">
+        <cdk-virtual-scroll-viewport #container [itemSize]="times.length" orientation="horizontal"
+          class="scrollable-container">
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="none center">
+            <div *cdkVirtualFor="let timeObj of times;let ind=index;">
+              <div class="date-item time-item clickable"
+                [ngClass]="selectedTimeIndex===ind?'date-selected-true':'date-selected-false'"
+                (click)="selectTime(ind)">
+                <span [dir]="'ltr'">{{ timeObj.timeDisplay }}</span>
+              </div>
+            </div>
+          </div>
+        </cdk-virtual-scroll-viewport>
+      </div>
+    </div>
+    <div *ngIf="selectedDateIndex!=='' && selectedTimeIndex!==''" class="white-container margin-top" fxLayout="row"
+      fxLayout.xs="column" fxLayoutGap.xs="20px">
+      <div fxLayout="row" fxLayoutAlign="start none" fxLayoutAlign.xs="center none">
+        <div *ngIf="show.image" class="show-image-details" [style.background-image]="'url(' + show.image + ')'"></div>
+        <div *ngIf="!show.image" class="show-image-details"></div>
+      </div>
+      <div fxFlex="grow" class="show-details-info-parent">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div>
+            <h1 class="show-details-title">{{ show.showName[currentLang] }}</h1>
+          </div>
+          <div class="">
+            <button mat-raised-button color="primary" (click)="bookPlay()"
+              class="show-details-book-button step-one-details">{{ 'SHOW.BOOK' | translate }}
+            </button>
+          </div>
+        </div>
+        <div class="show-details" fxLayout="column" fxLayoutGap="20px">
+          <div *ngIf="show.dates" class="show-details-info" fxLayout="row">
+            <mat-icon svgIcon="calendar"></mat-icon>
+            <h6 class="show-details-info-child">
+              <span class="show-details-info-text">{{ 'SHOW.DATE_LABEL' | translate }}</span>
+              <span
+                class="normal-font-weight">{{ show.dates[selectedDateIndex]._id | date:'EEEE MMMM d, y' }}</span>
+            </h6>
+          </div>
+          <div *ngIf="show.dates" class="show-details-info" fxLayout="row">
+            <mat-icon svgIcon="time"></mat-icon>
+            <h6 class="show-details-info-child">
+              <span class="show-details-info-text">{{ 'SHOW.TIME_LABEL' | translate }}</span>
+              <span [dir]="'ltr'" class="normal-font-weight">{{ times[selectedTimeIndex].timeDisplay }}</span>
+              <span
+                class="margin-span normal-font-weight">({{ 'SHOW.ENTRANCE_TIME_LABEL' | translate }}</span>
+              <span [dir]="'ltr'" class="normal-font-weight">{{ times[selectedTimeIndex].entranceTime }}</span>
+              <span>)</span>
+            </h6>
+          </div>
+          <div class="show-details-info" fxLayout="row">
+            <mat-icon svgIcon="duration"></mat-icon>
+            <h6 class="show-details-info-child">
+              <span
+                class="show-details-info-text">{{ 'SHOW.DURATION_LABEL' | translate }}</span>
+              <span [dir]="'ltr'" class="normal-font-weight">{{ show.durationText }}</span>
+            </h6>
+          </div>
+          <div class="show-details-info" fxLayout="row" *ngIf="times[selectedTimeIndex]">
+            <mat-icon svgIcon="venue"></mat-icon>
+            <h6 class="show-details-info-child">
+              <span class="show-details-info-text">{{ 'SHOW.VENUE_LABEL' | translate }}</span>
+              <span *ngIf="times[selectedTimeIndex].theaterName[currentLang]"
+                class="normal-font-weight">{{ times[selectedTimeIndex].theaterName[currentLang] }}</span>
+              <span *ngIf="times[selectedTimeIndex].theaterAddress[currentLang]" class="normal-font-weight">,
+                {{ times[selectedTimeIndex].theaterAddress[currentLang] }} </span>
+              <span *ngIf="times[selectedTimeIndex].theaterPhoneNumber" [dir]="'ltr'" class="normal-font-weight">
+                ({{ times[selectedTimeIndex].theaterPhoneNumber }})</span>
+            </h6>
+          </div>
+          <div class="show-details-info" fxLayout="row" *ngIf="times[selectedTimeIndex]">
+            <mat-icon svgIcon="prices"></mat-icon>
+            <h6 class="show-details-info-child">
+              <span class="show-details-info-text">{{ 'SHOW.PRICES_LABEL' | translate }}</span>
+              <span class="normal-font-weight">
+                <span
+                  *ngIf="show.country._id === 'QA'">{{ 'COMMON.QA_CURRENCY' | translate }}</span>
+                <span
+                  *ngIf="show.country._id != 'QA'">{{ 'COMMON.CURRENCY' | translate }}</span>
+                {{ times[selectedTimeIndex].minPrice | number }}-
+                <span
+                  *ngIf="show.country._id === 'QA'">{{ 'COMMON.QA_CURRENCY' | translate }}</span>
+                <span
+                  *ngIf="show.country._id != 'QA'">{{ 'COMMON.CURRENCY' | translate }}</span>
+                {{ times[selectedTimeIndex].maxPrice | number }}</span>
+            </h6>
+          </div>
+          <div class="show-details-info" fxLayout="row">
+            <mat-icon svgIcon="event"></mat-icon>
+            <h6 class="show-details-info-child">
+              <span
+                class="show-details-info-text">{{ 'SHOW.DESCRIPTION_LABEL' | translate }}</span>
+              <span class="normal-font-weight">
+                {{ show.description[currentLang] }}
+              </span>
+            </h6>
+          </div>
+          <div class="show-details-info" fxLayout="row">
+            <mat-icon svgIcon="authors"></mat-icon>
+            <h6 *ngIf="show.authors && show.authors.length>0" class="show-details-info-child">
+              <span class="show-details-info-text">{{ 'SHOW.AUTHOR_LABEL' | translate }}</span>
+              <ng-container *ngFor="let author of show.authors;let ind=index">
+                <span *ngIf="ind<show.authors.length-1" class="normal-font-weight">{{ author[currentLang] }}, </span>
+                <span *ngIf="ind==show.authors.length-1" class="normal-font-weight">{{ author[currentLang] }}</span>
+              </ng-container>
+            </h6>
+          </div>
+          <div class="show-details-info" fxLayout="row">
+            <mat-icon svgIcon="director"></mat-icon>
+            <h6 *ngIf="show.directors && show.directors.length>0" class="show-details-info-child">
+              <span
+                class="show-details-info-text">{{ 'SHOW.DIRECTOR_LABEL' | translate }}</span>
+              <ng-container *ngFor="let director of show.directors;let ind=index">
+                <span *ngIf="ind<show.directors.length-1" class="normal-font-weight">{{ director[currentLang] }},
+                </span>
+                <span *ngIf="ind==show.directors.length-1"
+                  class="normal-font-weight">{{ director[currentLang] }}</span>
+              </ng-container>
+            </h6>
+          </div>
+          <div class="show-details-info" fxLayout="row">
+            <mat-icon svgIcon="cast"></mat-icon>
+            <h6 *ngIf="show.actors && show.actors.length>0" class="show-details-info-child">
+              <span class="show-details-info-text">{{ 'SHOW.CAST_LABEL' | translate }}</span>
+              <ng-container *ngFor="let actor of show.actors;let ind=index">
+                <span *ngIf="ind<show.actors.length-1" class="normal-font-weight">{{ actor[currentLang] }}, </span>
+                <span *ngIf="ind==show.actors.length-1" class="normal-font-weight">{{ actor[currentLang] }}</span>
+              </ng-container>
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="showComponentStep === 2">
+  <div *ngIf="zonesResponse" class="details-container language-{{ currentLang }}" [dir]="direction">
+    <div class="white-container white-container-booking">
+      <div class="show-details-title step-title">{{ 'SHOW.SELECT_ZONE' | translate }}</div>
+      <div class="margin-top" fxLayout="row" fxLayout.xs="column" fxLayoutGap="40px" fxLayoutGap.xs="20px">
+        <div fxFlex="50">
+          <div *ngIf="zonesResponse.image" class="seat-map-image"
+            [style.background-image]="'url(' + zonesResponse.image + ')'"></div>
+          <div *ngIf="!zonesResponse.image" class="seat-map-image"></div>
+        </div>
+        <div fxFlex="50" fxLayout="column">
+          <div class="zone-container-parent">
+            <div *ngFor="let zone of zonesResponse.zones;let ind=index"
+              [ngClass]="ind<zonesResponse.zones.length-1?'zone-container zone-container-border clickable':'zone-container clickable'"
+              [ngStyle]="ind%2===0?{'background-color':'#f5f5f5'}:{}" fxLayout="row"
+              fxLayoutAlign="space-between center" (click)="selectZone(zone,ind)">
+              <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="10px">
+                <div class="rounded-point" [style.background-color]="zone.color"></div>
+                <div class="zone-name">{{ zone.label }}</div>
+                <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="15px">
+                  <div class="price-div">
+                    <span
+                      *ngIf="show.country._id === 'QA'">{{ 'COMMON.QA_CURRENCY' | translate }}</span>
+                    <span
+                      *ngIf="show.country._id != 'QA'">{{ 'COMMON.CURRENCY' | translate }}</span>
+                    {{ zone.price | number:'1.0-2' }}
+                  </div>
+                  <div class="selected-price" fxLayout="row" fxLayoutAlign="center center">
+                    <mat-icon *ngIf="selectedZoneIndex == ind" svgIcon="checkbox"></mat-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="end center" class="button-next">
+        <button mat-raised-button color="primary" (click)="showSeats()"
+          class="show-details-book-button">{{ 'COMMON.NEXT' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="showComponentStep === 3">
+
+  <div *ngIf="seatingsResponse" class="details-container language-{{ currentLang }}" [dir]="direction">
+    <div *ngIf="show.country._id=== 'QA'">
+      <div fxLayout.gt-md="row" fxLayout.md="row" fxLayout="column" fxLayoutGap="15px">
+        <div fxFlex.gt-md="78" fxFlex="65" class="white-container white-container-padding-less">
+          <div fxLayout="row" class="show-title-divider">
+            <div fxFlex.gt-md="100" fxFlex="100" class="show-details-title step-title">
+              {{ 'SHOW.SELECT_SEATS' | translate }}</div>
+            <!--            <div fxFlex.gt-md="15" fxFlex="35">-->
+            <!--              <div class="button-next-step-title">-->
+            <!--                <button [disabled]="(!selectSeatsObj || (selectSeatsObj.seatsforDisplay && selectSeatsObj.seatsforDisplay.length===0))"-->
+            <!--                  mat-raised-button color="primary" (click)="bookSeats()"-->
+            <!--                  class="show-details-book-button seat-book">{{ 'SHOW.BOOK_SEATS' | translate }}-->
+            <!--                </button>-->
+            <!--              </div>-->
+            <!--            </div>-->
+          </div>
+          <div class="seat-hint">{{ 'SEATS.HINT' | translate }}</div>
+          <div>
+            <si-seatsio-seating-chart [config]="config">
+
+            </si-seatsio-seating-chart>
+          </div>
+        </div>
+        <div fxFlex.gt-md="22" fxFlex="35" class="white-container white-container-padding-bill order-container">
+          <div class="show-details-title step-title padding-left-right-{{ currentLang }} padding-bottom">
+            {{'SHOW.YOUR_ORDER'
+            | translate}}
+          </div>
+          <div class="total-div">
+            <div class="min-height">
+              <div fxLayout="column" fxLayoutGap="8px" class="margin-top-small padding-left-right-{{ currentLang }} ">
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="100">
+                  <div fxFlex="25" class="bill-info">{{ 'SHOW.TICKET' | translate }}</div>
+                  <div fxFlex="25" class="bill-info center-row">{{ 'SHOW.ROW' | translate }}
+                  </div>
+                  <div fxFlex="25" class="bill-info center-row">{{ 'SHOW.SEAT' | translate }}
+                  </div>
+                  <div fxFlex="25" class="bill-info right-row-{{ currentLang }}">
+                    {{ 'SHOW.PRICE' | translate }}</div>
+                </div>
+                <ng-container *ngIf="selectSeatsObj">
+                  <div *ngFor="let seat of selectSeatsObj.seatsforDisplay;let ind=index;" fxLayout="row"
+                    fxLayoutAlign="start center" fxFlex="100">
+                    <div fxFlex="25" class="bill-value" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                      <div class="rounded-point"
+                        [style.background-color]="zonesResponse.zones[selectedZoneIndex].color"></div>
+                      <div>{{ ind + 1 }}</div>
+                    </div>
+                    <div fxFlex="25" class="bill-value center-row">{{ seat.row }}</div>
+                    <div fxFlex="25" class="bill-value center-row">{{ seat.seat }}</div>
+                    <div fxFlex="25" class="bill-value right-row-{{ currentLang }} bill-price">{{'COMMON.CURRENCY' |
+                      translate}}
+                      {{ seat.price }}
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+              <div *ngIf="selectSeatsObj && selectSeatsObj.totalamount!=0" class="sub-total-div padding-left-right-more"
+                fxLayout="row" fxLayoutAlign="space-between center">
+                <div>{{ 'SHOW.SUB_TOTAL' | translate }}</div>
+                <div class="sub-total-value">{{ 'COMMON.CURRENCY' | translate }} {{selectSeatsObj.totalamount |
+                  number:'1.0-2'}}
+                </div>
+              </div>
+            </div>
+            <div class="white-dots-div"></div>
+          </div>
+          <div class="padding-left-right-more" style="margin-bottom: 70px">
+            <div class="play-theater">{{ show.showName[currentLang] }}</div>
+            <div [dir]="'ltr'" class="play-date">{{ times[selectedTimeIndex].timeDisplay }} /
+              {{ show.dates[selectedDateIndex]._id | date:'EEEE, MMMM d y' }}
+            </div>
+            <div *ngIf="selectSeatsObj && selectSeatsObj.totalamount!=0" class="margin-top" style="margin-bottom: 75px"
+              fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="play-theater">{{ 'SHOW.TOTAL_COST' | translate }}</div>
+              <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px">
+                <div>
+                  <mat-icon svgIcon="prices-grey"></mat-icon>
+                  <span class="play-theater space-left">x {{ selectSeatsObj.seatsforDisplay.length }}</span>
+                </div>
+                <div class="total-price">{{ 'COMMON.CURRENCY' | translate }} {{selectSeatsObj.totalamount |
+                  number:'1.0-2'}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--          <div class="padding-left-right-more margin-top-20">-->
+          <!--            <div class="covid-message-title">{{ ('SHOW.COVID_MESSAGE_TITLE' | translate) }}</div>-->
+          <!--            <div class="covid-message margin-top-10">{{ ('SHOW.COVID_MESSAGE_1' | translate) }}</div>-->
+          <!--            <div class="covid-message margin-top-10">{{ ('SHOW.COVID_MESSAGE_2' | translate) }}</div>-->
+          <!--            <div class="covid-message margin-top-10">{{ ('SHOW.COVID_MESSAGE_3' | translate) }}</div>-->
+          <!--            <div class="margin-top-20">-->
+          <!--              <app-checkbox [group]="form" name="covidTerms" [labelBefore]="true"-->
+          <!--                            label="{{ ('SHOW.COVID_MESSAGE_CHECKBOX' | translate) }}"-->
+          <!--                            required="true" appearance="outline"></app-checkbox>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <div class="button-next-step-title">
+            <button
+              [disabled]="(!selectSeatsObj || (selectSeatsObj.seatsforDisplay && selectSeatsObj.seatsforDisplay.length===0))"
+              mat-raised-button color="primary" (click)="bookSeats()"
+              class="show-details-book-button seat-book">{{ 'SHOW.BOOK_SEATS' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="show.country._id !== 'QA'" fxLayout="column">
+      <div fxLayout.gt-md="row" fxLayout.md="row" fxLayout="column" fxLayoutGap="15px">
+        <div fxFlex.gt-md="78" fxFlex="65" class="white-container white-container-padding-less">
+          <div fxLayout="row" class="show-title-divider">
+            <div fxFlex.gt-md="100" fxFlex="100" class="show-details-title step-title">
+              {{ 'SHOW.SELECT_SEATS' | translate }}</div>
+            <!--            <div fxFlex.gt-md="15" fxFlex="35">-->
+            <!--              <div class="button-next-step-title">-->
+            <!--                <button [disabled]="(!selectSeatsObj || (selectSeatsObj.seatsforDisplay && selectSeatsObj.seatsforDisplay.length===0))"-->
+            <!--                  mat-raised-button color="primary" (click)="bookSeats()"-->
+            <!--                  class="show-details-book-button seat-book">{{ 'SHOW.BOOK_SEATS' | translate }}-->
+            <!--                </button>-->
+            <!--              </div>-->
+            <!--            </div>-->
+          </div>
+          <div class="seat-hint">{{ 'SEATS.HINT' | translate }}</div>
+          <div>
+            <app-seat-chart [direction]="direction" [currentLang]="currentLang" [seatConfig]="seatingsResponse"
+              (selectSeatEvent)="chooseSeating($event)" [seatmap]="seatmap"
+              [zone]="zonesResponse.zones[selectedZoneIndex]"></app-seat-chart>
+          </div>
+        </div>
+        <div fxFlex.gt-md="22" fxFlex="35" class="white-container white-container-padding-bill order-container">
+          <div class="show-details-title step-title padding-left-right-{{ currentLang }} padding-bottom">
+            {{'SHOW.YOUR_ORDER'
+            | translate}}
+          </div>
+          <div class="total-div">
+            <div class="min-height">
+              <div fxLayout="column" fxLayoutGap="8px" class="margin-top-small padding-left-right-{{ currentLang }} ">
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="100">
+                  <div fxFlex="25" class="bill-info">{{ 'SHOW.TICKET' | translate }}</div>
+                  <div fxFlex="25" class="bill-info center-row">{{ 'SHOW.ROW' | translate }}
+                  </div>
+                  <div fxFlex="25" class="bill-info center-row">{{ 'SHOW.SEAT' | translate }}
+                  </div>
+                  <div fxFlex="25" class="bill-info right-row-{{ currentLang }}">
+                    {{ 'SHOW.PRICE' | translate }}</div>
+                </div>
+                <ng-container *ngIf="selectSeatsObj">
+                  <div *ngFor="let seat of selectSeatsObj.seatsforDisplay;let ind=index;" fxLayout="row"
+                    fxLayoutAlign="start center" fxFlex="100">
+                    <div fxFlex="25" class="bill-value" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                      <div class="rounded-point"
+                        [style.background-color]="zonesResponse.zones[selectedZoneIndex].color"></div>
+                      <div>{{ ind + 1 }}</div>
+                    </div>
+                    <div fxFlex="25" class="bill-value center-row">{{ seat.row }}</div>
+                    <div fxFlex="25" class="bill-value center-row">{{ seat.seat }}</div>
+                    <div fxFlex="25" class="bill-value right-row-{{ currentLang }} bill-price">{{'COMMON.CURRENCY' |
+                      translate}}
+                      {{ seat.price }}
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+              <div *ngIf="selectSeatsObj && selectSeatsObj.totalamount!=0" class="sub-total-div padding-left-right-more"
+                fxLayout="row" fxLayoutAlign="space-between center">
+                <div>{{ 'SHOW.SUB_TOTAL' | translate }}</div>
+                <div class="sub-total-value">{{ 'COMMON.CURRENCY' | translate }} {{selectSeatsObj.totalamount |
+                  number:'1.0-2'}}
+                </div>
+              </div>
+            </div>
+            <div class="white-dots-div"></div>
+          </div>
+          <div class="padding-left-right-more" style="margin-bottom: 70px">
+            <div class="play-theater">{{ show.showName[currentLang] }}</div>
+            <div [dir]="'ltr'" class="play-date">{{ times[selectedTimeIndex].timeDisplay }} /
+              {{ show.dates[selectedDateIndex]._id | date:'EEEE, MMMM d y' }}
+            </div>
+            <div *ngIf="selectSeatsObj && selectSeatsObj.totalamount!=0" class="margin-top" style="margin-bottom: 75px"
+              fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="play-theater">{{ 'SHOW.TOTAL_COST' | translate }}</div>
+              <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px">
+                <div>
+                  <mat-icon svgIcon="prices-grey"></mat-icon>
+                  <span class="play-theater space-left">x {{ selectSeatsObj.seatsforDisplay.length }}</span>
+                </div>
+                <div class="total-price">{{ 'COMMON.CURRENCY' | translate }} {{selectSeatsObj.totalamount |
+                  number:'1.0-2'}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--          <div class="padding-left-right-more margin-top-20">-->
+          <!--            <div class="covid-message-title">{{ ('SHOW.COVID_MESSAGE_TITLE' | translate) }}</div>-->
+          <!--            <div class="covid-message margin-top-10">{{ ('SHOW.COVID_MESSAGE_1' | translate) }}</div>-->
+          <!--            <div class="covid-message margin-top-10">{{ ('SHOW.COVID_MESSAGE_2' | translate) }}</div>-->
+          <!--            <div class="covid-message margin-top-10">{{ ('SHOW.COVID_MESSAGE_3' | translate) }}</div>-->
+          <!--            <div class="margin-top-20">-->
+          <!--              <app-checkbox [group]="form" name="covidTerms" [labelBefore]="true"-->
+          <!--                            label="{{ ('SHOW.COVID_MESSAGE_CHECKBOX' | translate) }}"-->
+          <!--                            required="true" appearance="outline"></app-checkbox>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <div class="button-next-step-title">
+            <button
+              [disabled]="(!selectSeatsObj || (selectSeatsObj.seatsforDisplay && selectSeatsObj.seatsforDisplay.length===0))"
+              mat-raised-button color="primary" (click)="bookSeats()"
+              class="show-details-book-button seat-book">{{ 'SHOW.BOOK_SEATS' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="showComponentStep === 4">
+  <div
+    *ngIf="bookSeatingsResponse && bookSeatingsResponse.methods && bookSeatingsResponse.methods.length && bookSeatingsResponse.methods.length > 0"
+    class="details-container language-{{ currentLang }}" [dir]="direction">
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center center">
+      <div *ngFor="let method of bookSeatingsResponse.methods"
+        [ngClass]="chosenPackage && method.PaymentMethodId === chosenPackage.PaymentMethodId?'paymentMethod-box paymentMethod-chosen clickable':'paymentMethod-box clickable'"
+        fxLayout="column" fxLayoutGap="2px" fxLayoutAlign="start center" (click)="choosePackage(method)">
+        <div *ngIf="method.ImageUrl" class="payment-image" [style.background-image]="'url(' + method.ImageUrl + ')'">
+        </div>
+        <div class="paymentMethod-name">
+          {{ currentLang && currentLang=='en' ? method.PaymentMethodEn : method.PaymentMethodAr }}
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="end center" style="margin-top: 15px">
+      <button [disabled]="!chosenPackage || !chosenPackage.PaymentMethodId" mat-raised-button color="primary"
+        (click)="applyPayment()"
+        class="show-details-book-button-payment seat-book">{{ 'SHOW.BOOK_SEATS' | translate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,19 @@
+<div>
+  <span *ngIf="title" class="input-title">{{title}}</span>
+  <mat-form-field [formGroup]="group" [appearance]="appearance? appearance:''">
+    <mat-select [formControl]="group.controls[name]" [placeholder]="label" #select [disabled]="disabled"
+                [required]="required" (selectionChange)="selectionChange($event)" (openedChange)="openedChange($event)">
+      <input *ngIf="isSearch" class="input-search" #myInput matInput focused="'true'" type="text"
+             (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
+      <ng-container *ngFor="let option of selectedOptions">
+        <mat-option class="mat-option language-{{currentLang}}" *ngIf="!skipOptions || (skipOptions && skipOptions.indexOf(option.value) ===-1)"
+                    [value]="option"
+                    [disabled]="option.disabled || disabledOptions"
+                    [ngClass]="option.columnDisplay ? 'mat-option-text-column': ''">
+          <ng-container>{{option.text}}</ng-container>
+        </mat-option>
+      </ng-container>
+    </mat-select>
+    <mat-error>{{('FORMS.REQUIRED' | translate)}}</mat-error>
+  </mat-form-field>
+</div>

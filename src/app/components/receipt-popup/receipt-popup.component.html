@@ -1,0 +1,117 @@
+<div class="dialog-content-container" [dir]="data.direction" fxLayout="column">
+  <div class="theater-name">{{data.showName}}</div>
+  <div class="padding-info">
+    <div fxLayout="column" class="info-parent">
+      <div>
+        <span class="info-title">{{'SHOW.DATE_LABEL' | translate}}</span>
+        <span>{{dateDisplay}}</span>
+      </div>
+      <div>
+        <span class="info-title">{{'SHOW.TIME_LABEL' | translate}}</span>
+        <span [dir]="'ltr'">{{timeDisplay}}</span>
+      </div>
+      <div>
+        <span class="info-title">{{'SHOW.ENTRANCE_TIME_LABEL' | translate}}</span>
+        <span [dir]="'ltr'">{{data.entranceTime}}</span>
+      </div>
+      <div>
+        <span class="info-title">{{'SHOW.DURATION_LABEL' | translate}}</span>
+        <span [dir]="'ltr'">{{data.durationText}}</span>
+      </div>
+      <div>
+        <span class="info-title">{{'SHOW.VENUE_LABEL' | translate}}</span>
+        <span>{{data.theaterName}}</span>
+        <span *ngIf="data.theaterAddress">, {{data.theaterAddress}} </span>
+        <span *ngIf="data.theaterPhoneNumber" [dir]="'ltr'">({{data.theaterPhoneNumber}})</span>
+      </div>
+    </div>
+    <div *ngIf="!data.showRefund" fxLayout="column" class="order-parent">
+      <div class="order-title">{{'SHOW.YOUR_ORDER' | translate}}</div>
+      <div fxLayout="column" fxLayoutGap="8px" class="language-{{data.currentLang}}">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="100">
+          <div fxFlex="25" class="bill-info">{{'SHOW.TICKET' | translate}}</div>
+          <div fxFlex="25" class="bill-info center-row">{{'SHOW.ROW' | translate}}</div>
+          <div fxFlex="25" class="bill-info center-row">{{'SHOW.SEAT' | translate}}</div>
+          <div fxFlex="25" class="bill-info right-row-{{data.currentLang}}">{{'SHOW.PRICE' | translate}}</div>
+        </div>
+        <div *ngFor="let ticket of data.tickets;let ind=index;" fxLayout="row"
+             fxLayoutAlign="start center" fxFlex="100">
+          <div fxFlex="25" class="bill-value" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+            <div class="rounded-point"
+                 [style.background-color]="ticket.zone.color"></div>
+            <div>{{ind +1}}</div>
+          </div>
+          <div fxFlex="25" class="bill-value center-row">{{ticket.row}}</div>
+          <div fxFlex="25" class="bill-value center-row">{{ticket.seat}}</div>
+          <div fxFlex="25" class="bill-value bill-price right-row-{{data.currentLang}}">{{'COMMON.CURRENCY' |
+            translate}}
+            {{ticket.zone.price}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="data.showRefund" fxLayout="column" class="order-parent">
+      <div class="select-checkboxes" fxLayout="row" fxLayoutAlign="space-between center">
+        <div *ngIf="selectedCount === 0" class="empty-checkbox clickable" (click)="selectAll()"></div>
+        <div *ngIf="selectedCount === data.tickets.length"
+             class="checkbox-item checkbox-item-all clickable" (click)="selectAll()">
+        </div>
+        <div *ngIf="selectedCount !== 0 && selectedCount !== data.tickets.length" (click)="selectAll()"
+             class="clickable checkbox-item checkbox-item-not-all">
+        </div>
+        <div class="selected-count">{{selectedCount | number}} {{'COMMON.SELECTED' | translate}}</div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="20px" fxLayoutGap.xs="5px" class="padding-left-right">
+        <div fxLayout="column" class="language-{{data.currentLang}}" fxLayoutGap="5px" fxLayoutAlign="center start">
+          <div fxFlex="21px"></div>
+          <div *ngFor="let ticket of data.tickets;let ind=index;" fxLayout="row"
+               fxLayoutAlign="center center" fxFlex="100">
+            <div class="checkbox-parent">
+              <mat-checkbox color="primary" [checked]="ticket.checked"
+                            (change)="selectTicket($event, ticket)"></mat-checkbox>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="2px" class="separator-checkbox"></div>
+        <div fxFlex="noshrink" fxLayout="column" fxLayoutGap="8px" class="language-{{data.currentLang}}">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="100">
+            <div fxFlex="25" class="bill-info">{{'SHOW.TICKET' | translate}}</div>
+            <div fxFlex="25" class="bill-info center-row">{{'SHOW.ROW' | translate}}</div>
+            <div fxFlex="25" class="bill-info center-row">{{'SHOW.SEAT' | translate}}</div>
+            <div fxFlex="25" class="bill-info right-row-{{data.currentLang}}">{{'SHOW.PRICE' | translate}}</div>
+          </div>
+          <div *ngFor="let ticket of data.tickets;let ind=index;" fxLayout="row"
+               fxLayoutAlign="start center" fxFlex="100">
+            <div fxFlex="25" class="bill-value" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+              <div class="rounded-point"
+                   [style.background-color]="ticket.zone.color"></div>
+              <div>{{ind +1}}</div>
+            </div>
+            <div fxFlex="25" class="bill-value center-row">{{ticket.row}}</div>
+            <div fxFlex="25" class="bill-value center-row">{{ticket.seat}}</div>
+            <div fxFlex="25" class="bill-value bill-price right-row-{{data.currentLang}}">{{'COMMON.CURRENCY' |
+              translate}}
+              {{ticket.zone.price}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!data.showRefund" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center" class="buttons-div">
+    <button mat-raised-button color="primary" class="button primary-button receipt-button" (click)="closePopup()">
+      {{'COMMON.OK'|translate}}
+    </button>
+    <button mat-raised-button color="primary" class="button secondary-button receipt-button" (click)="download()">
+      {{'PROFILE.DOWNLOAD_RECEIPT'|translate}}
+    </button>
+  </div>
+  <div *ngIf="data.showRefund" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center" class="buttons-div">
+    <button mat-raised-button color="primary" class="button primary-button receipt-button" (click)="closePopup()">
+      {{'COMMON.CANCEL'|translate}}
+    </button>
+    <button mat-raised-button color="primary" class="button secondary-button receipt-button" (click)="refundTickets()">
+      {{'PROFILE.REFUND_TICKETS' | translate}}
+    </button>
+  </div>
+</div>

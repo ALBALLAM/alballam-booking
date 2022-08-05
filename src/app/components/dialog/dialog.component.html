@@ -1,0 +1,14 @@
+<div class="dialog-content-container logout-popup" [dir]="direction">
+  <h2 mat-dialog-title>{{data.title}}</h2>
+  <mat-dialog-content class="mat-typography">
+    <p>{{data.content}}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center" *ngIf="!data.isConfirmationPopUp">
+    <button *ngIf="!data.actionCallback" mat-raised-button mat-dialog-close color="primary">{{'COMMON.OK' | translate}}</button>
+    <button *ngIf="data.actionCallback" mat-raised-button mat-dialog-close color="primary" (click)="confirmation()">{{'COMMON.OK' | translate}}</button>
+  </mat-dialog-actions>
+  <mat-dialog-actions align="center" *ngIf="data.isConfirmationPopUp">
+    <button mat-raised-button mat-dialog-close color="primary" (click)="confirmation()">{{'CONFIRMATION.YES' | translate}}</button>
+    <button mat-raised-button mat-dialog-close color="primary">{{'CONFIRMATION.NO' | translate}}</button>
+  </mat-dialog-actions>
+</div>

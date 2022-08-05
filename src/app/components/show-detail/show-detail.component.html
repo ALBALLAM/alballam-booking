@@ -1,0 +1,43 @@
+<div class="white-container" fxLayout="column" fxLayoutGap="30px">
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div *ngIf="image" class="show-image-detail" [style.background-image]="'url(' + image + ')'"></div>
+    <div *ngIf="!image" class="show-image-detail"></div>
+    <div fxFlex="grow">
+      <div fxLayout="row" fxLayoutAlign="space-between none" class="show-details-title-wrapper">
+        <div class="show-details-title">{{title}}</div>
+        <div (click)="openCalendar()" class="show-calendar-image" *ngIf="showCalendarButton">
+          <mat-icon svgIcon="calendar-profile"></mat-icon>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutGap="5px" class="info-div">
+        <div>
+          <span class="info-title">{{'SHOW.DATE_LABEL' | translate}}</span>
+          <span>{{dateDisplay}}</span>
+        </div>
+        <div>
+          <span class="info-title">{{'SHOW.TIME_LABEL' | translate}}</span>
+          <span [dir]="'ltr'">{{timeDisplay}}</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="info-title">
+          {{ticketNumber}} {{'PROFILE.TICKETS' | translate}}
+        </span>
+          <span *ngIf="status && statusName" class="status-div-{{status}}">{{statusName | uppercase}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <button *ngIf="showViewDetails" mat-raised-button color="primary"
+            [ngClass]="showRefund?'secondary-button':'primary-button'" (click)="viewDetails()">
+      {{'PROFILE.VIEW_DETAILS' | translate}}
+    </button>
+    <button *ngIf="showRefund" mat-raised-button color="primary" class="primary-button" (click)="refundPlay()">
+      {{('PROFILE.REFUND_TICKETS' | translate) | uppercase}}
+    </button>
+    <div *ngIf="amountRefunded">
+      <span class="info-title">{{'SHOW.AMOUNT_REFUNDED_LABEL' | translate}}</span>
+      <span>{{'COMMON.CURRENCY'|translate}} {{amountRefunded | number}}</span>
+    </div>
+  </div>
+</div>

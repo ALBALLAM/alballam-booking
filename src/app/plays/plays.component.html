@@ -1,0 +1,47 @@
+<div fxLayout="column">
+  <div class="details-container-{{currentLang}} language-{{currentLang}}" [dir]="direction">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+         fxLayoutAlign.xs="none none" fxLayoutGap.xs="10px" class="search-padding-{{currentLang}}">
+      <div class="section-title">{{'PLAYS.TITLE' | translate}}</div>
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+        <div [ngClass]="search!==''?'sort-by-div search-div search-div-filled':'sort-by-div search-div'">
+          <mat-form-field appearance="outline">
+            <input matInput [(ngModel)]="search" type="text" placeholder="{{'PLAYS.SEARCH' | translate}}"
+                   (ngModelChange)="clearFilter()" (keydown.enter)="enterFilter()"/>
+            <mat-icon matSuffix svgIcon="search-icon" class="search-icon clickable" (click)="search!=='' && filterPlays()"></mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="sort-by-div">
+          <mat-form-field appearance="outline">
+            <mat-select [(ngModel)]="sortBy" (selectionChange)="filterPlays()"
+                        placeholder="{{'PLAYS.SORT_BY' | translate}}">
+              <ng-container *ngFor="let option of sortByOptions">
+                <mat-option class="sort-by-options mat-option" [value]="option.value">
+                  {{option.text}}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="plays && plays.length>0">
+      <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="none start">
+        <ng-container *ngFor="let play of plays">
+          <div fxFlex.gt-sm="0 1 calc(16.66% - 20px)"
+               fxFlex="0 1 calc(50% - 20px)"
+               fxFlex.md="0 1 calc(20% - 20px)"
+               fxFlex.gt-xs="0 1 calc(25% - 20px)" class="play-item clickable" (click)="bookShow(play)">
+            <app-show [currentLang]="currentLang" image="{{play.image}}" title="{{play.showName[currentLang]}}"></app-show>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div *ngIf="(!plays || plays.length===0) && !isLoading" class="empty-tab" fxLayout="column"
+         fxLayoutGap="40px">
+      <div class="empty-event-image"></div>
+      <div class="empty-event-sentence">{{'PLAYS.NO_PLAYS'|translate}}</div>
+    </div>
+  </div>
+  <div id="get-additional" class="empty-div">&nbsp;</div>
+</div>

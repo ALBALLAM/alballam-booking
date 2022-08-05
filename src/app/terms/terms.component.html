@@ -1,0 +1,19 @@
+<div *ngIf="termsResponse" class="details-container language-{{currentLang}}" [dir]="direction">
+  <div [ngTemplateOutlet]="backContainer"></div>
+  <div class="background-container">
+    <div class="section-title">{{termsResponse.title}}</div>
+    <div class="margin-top">
+      <div *ngIf="termsResponse.body" [innerHtml]="termsResponse.body"></div>
+    </div>
+  </div>
+</div>
+<ng-template #backContainer>
+  <div class="back-div clickable language-{{currentLang}}" fxLayout="row" fxLayoutAlign="start center"
+       (click)="back()">
+    <div fxLayout="row" fxLayoutAlign="center center" class="back-arrow rotate-icon-{{currentLang}}">
+      <mat-icon svgIcon="back"></mat-icon>
+    </div>
+    <span class="back-name">{{'COMMON.BACK' | translate}}</span>
+  </div>
+</ng-template>
+

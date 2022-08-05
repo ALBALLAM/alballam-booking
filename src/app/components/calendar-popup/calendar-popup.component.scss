@@ -1,0 +1,110 @@
+@import "../../../assets/style/variables";
+
+::ng-deep .receipt-popup-dialog {
+  mat-dialog-container {
+    padding: 40px;
+    min-width: 500px;
+    max-height: 610px;
+  }
+}
+
+.dialog-content-container {
+  text-align: center;
+}
+
+.main-title {
+  color: get-color('bill-value');
+  font-size: 25px;
+  font-family: get-font(primary-bold) !important;
+  margin-bottom: 5px;
+}
+
+.subtitle{
+  color: get-color('bill-value');
+  font-size: 18px;
+  font-family: get-font(primary) !important;
+  margin-bottom: 5px;
+}
+
+.separator{
+  width: 100%;
+  height: 1px;
+  background-color: #e7e7e7;
+}
+
+.receipt-button {
+  width: 40%;
+  border-radius: 3px !important;
+  height: 45px;
+}
+
+.buttons-div {
+  margin-top: 50px;
+}
+
+.sync-btn{
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-family: get-font(primary-bold) !important;
+  margin-bottom: 20px;
+  padding: 10px 30px;
+  width: 80%;
+  cursor: pointer;
+  span{
+    margin-left: 10px;
+  }
+}
+
+.google-btn{
+  border: 1px solid #2e2e2e;
+
+}
+
+.outlook-btn{
+  border: 1px solid #1976d2;
+  color: #1976d2;
+}
+
+@media only screen and (max-width: 600px) {
+
+  ::ng-deep .receipt-popup-dialog {
+    mat-dialog-container {
+      padding: 20px;
+      min-width: auto;
+      max-height: 600px !important;
+    }
+  }
+  .receipt-button {
+    width: 80%;
+  }
+  .padding-info {
+    padding: 0 7%;
+  }
+  .buttons-div {
+    margin-top: 25px;
+  }
+  .main-title {
+    font-size: 21px;
+  }
+  .subtitle{
+    font-size: 16px;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  ::ng-deep .receipt-popup-dialog {
+    mat-dialog-container {
+      max-height: 800px;
+    }
+  }
+}
+
+
+.dialog-content-container.confirmation{
+  min-width: 145px;
+  text-align: center;
+  button {
+    border-radius: 25px;
+    min-width: 100px;
+  }
+}

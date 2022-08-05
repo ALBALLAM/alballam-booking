@@ -1,0 +1,15 @@
+<div class="checkbox-parent language-{{currentLang}}">
+  <div>
+    <span *ngIf="title" class="input-title">{{title}}</span>
+  </div>
+  <div>
+    <div *ngIf="!labelBefore" fxLayout="row" fxLayoutAlign="space-between center">
+      <span *ngIf="label" class="input-label">{{label}}</span>
+      <mat-checkbox color="primary" [checked]="value" (change)="checkboxChecked()"></mat-checkbox>
+    </div>
+    <div *ngIf="labelBefore" style="display: flex;justify-items: center; align-items: center">
+      <mat-checkbox color="primary" [checked]="value" (change)="checkboxChecked()"></mat-checkbox>
+      <span *ngIf="label" class="input-label">{{label}}</span>
+    </div>
+  </div>
+</div>

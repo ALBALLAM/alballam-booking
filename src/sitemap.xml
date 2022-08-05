@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://webuat.alballambooking.com</loc>
+  </url>
+  <url>
+    <loc>https://webuat.alballambooking.com/dashboard</loc>
+  </url>
+  <url>
+    <loc>https://webuat.alballambooking.com/shows</loc>
+  </url>
+  <url>
+    <loc>https://webuat.alballambooking.com/show</loc>
+  </url>
+  <url>
+    <loc>https://webuat.alballambooking.com/faqs</loc>
+  </url>
+  <url>
+    <loc>https://webuat.alballambooking.com/contactUs</loc>
+  </url>
+  <url>
+    <loc>https://webuat.alballambooking.com/aboutUs</loc>
+  </url>
+  <url>
+    <loc>https://webuat.alballambooking.com/howItWorks</loc>
+  </url>
+</urlset>

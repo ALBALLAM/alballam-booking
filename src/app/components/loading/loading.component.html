@@ -1,0 +1,8 @@
+<div class="loading-fullscreen" *ngIf="show === true"
+     [style.position]="absolutePosition?'absolute':''"
+     [ngClass]="transparent !== true?'loading-fullscreen-dimmed':''"
+>
+  <div>
+    <mat-progress-spinner mode="indeterminate" [diameter]="diameter ? diameter : 60"></mat-progress-spinner>
+  </div>
+</div>

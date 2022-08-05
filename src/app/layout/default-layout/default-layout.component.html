@@ -1,0 +1,9 @@
+<div class="parent-container">
+  <div class="top-bar">
+    <app-top-bar-content></app-top-bar-content>
+  </div>
+  <div class="main-container">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</div>

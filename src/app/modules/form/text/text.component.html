@@ -1,0 +1,18 @@
+<div [ngClass]="disabled?'disabled-input':''">
+  <span *ngIf="title" class="input-title">{{title}}</span>
+  <mat-form-field class="language-{{currentLang}}" [formGroup]="group" [appearance]="appearance? appearance:'standard'">
+    <mat-icon *ngIf="icon || svgIcon" matPrefix [svgIcon]="svgIcon">{{icon}}</mat-icon>
+    <input matInput [name]="name" [formControl]="group.controls[name]" [placeholder]="label" [required]="required"
+           [maxlength]="maxLength" [disabled]="disabled" [readonly]="disabled"
+           type="text" (keyup)="triggerKeyUp($event)"/>
+    <mat-hint *ngIf="hint">{{hint}}</mat-hint>
+    <mat-error *ngIf="group.get(name).hasError('required')">{{('FORMS.REQUIRED' | translate)}}</mat-error>
+    <mat-error *ngIf="group.get(name).hasError('pattern')">
+      {{patternErrorMessage?patternErrorMessage:('FORMS.INVALID_PATTERN' | translate)}}
+    </mat-error>
+    <mat-error *ngIf="group.get(name).hasError('maxlength')">{{('FORMS.MAX_LENGTH1' | translate)}} {{maxLengthNumber}}
+      {{('FORMS.MAX_LENGTH2' | translate)}}
+    </mat-error>
+  </mat-form-field>
+</div>
+
