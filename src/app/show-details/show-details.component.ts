@@ -66,7 +66,7 @@ export class ShowDetailsComponent implements OnInit {
   private _routeSubscription: Subscription;
   config;
   selectedZone;
-  selectedSeatsQR:{}[]=[];
+
   constructor(
     private _router: Router,
     private _translationService: TranslateService,
@@ -78,7 +78,6 @@ export class ShowDetailsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute
   ) {
-
     this._translate.getTranslation(this._translate.currentLang).subscribe(
       (translation) => (this.translation = translation),
       () => null,
@@ -129,9 +128,9 @@ export class ShowDetailsComponent implements OnInit {
     this.selectedTimeIndex = index;
   }
 
-  public selectZone(zone,index) {
-    console.log(zone)
-    this.selectedZone=zone
+  public selectZone(zone, index) {
+    console.log(zone);
+    this.selectedZone = zone;
     this.config = {
       region: "eu",
       // e.g. "eu"
@@ -142,21 +141,62 @@ export class ShowDetailsComponent implements OnInit {
       onRenderStarted: (chart) => {
         console.info("Render Started");
       },
-      availableCategories:[this.selectedZone.label],
-      onObjectSelected:(object,selectedTickets)=>{
-        let selectedSeat = {
-          price:this.selectedZone.price,
-          row:object.labels.section,
-          seat:object.labels.own
+      availableCategories: [this.selectedZone.label],
+      onObjectSelected: (object, selectedTickets) => {
+        let selectedSeatForDisplay = {
+          price: this.selectedZone.price,
+          row: object.labels.section,
+          seat: object.labels.own,
+        };
+        let selectedSeat: string =
+          selectedSeatForDisplay.row + " " + selectedSeatForDisplay.seat;
 
-        }
-        console.log(selectedSeat)
-        this.selectedSeatsQR.push(selectedSeat);
-        if(this.selectSeatsObj == null)
-         this.selectSeatsObj = {seatsforDisplay:[]}
-        this.selectSeatsObj.seatsforDisplay = this.selectedSeatsQR;
-        console.log(object,'test',selectedTickets)
+        console.log(selectedSeatForDisplay);
+        if (this.selectSeatsObj == null)
+          this.selectSeatsObj = {
+            seatsforDisplay: [],
+            selectedSeats: [],
+            totalamount: Number,
+          };
 
+        // Set Values
+        this.selectSeatsObj.seatsforDisplay.push(selectedSeatForDisplay);
+        this.selectSeatsObj.selectedSeats.push(selectedSeat);
+        this.selectSeatsObj.totalamount =
+          this.selectSeatsObj.seatsforDisplay.reduce(
+            (sum, current) => sum + current.price,
+            0
+          );
+        console.log(this.selectSeatsObj, " this.selectSeatsObj");
+        console.log(object, "test", selectedTickets);
+      },
+      onObjectDeselected: (object, selectedTickets) => {
+        let selectedSeatForDisplay = {
+          price: this.selectedZone.price,
+          row: object.labels.section,
+          seat: object.labels.own,
+        };
+        let selectedSeat: string =
+          selectedSeatForDisplay.row + " " + selectedSeatForDisplay.seat;
+
+        let indexOfSelectedObject =
+          this.selectSeatsObj.seatsforDisplay.findIndex(
+            (x) =>
+              x.row === selectedSeatForDisplay.row &&
+              x.seat === selectedSeatForDisplay.seat
+          );
+        this.selectSeatsObj.seatsforDisplay.splice(indexOfSelectedObject, 1);
+        let indexOfselectedSeat =
+          this.selectSeatsObj.selectedSeats.findIndex(
+            (x) =>
+              x.row === selectedSeat
+          );
+        this.selectSeatsObj.selectedSeats.splice(indexOfselectedSeat, 1);
+
+
+        this.selectSeatsObj.totalamount =this.selectSeatsObj.totalamount - selectedSeatForDisplay.price;
+        console.log(this.selectSeatsObj, " this.selectSeatsObj");
+        console.log(object, "test", selectedTickets);
       },
 
       // categories: [
@@ -188,7 +228,7 @@ export class ShowDetailsComponent implements OnInit {
 
   public chooseSeating(event) {
     this.selectSeatsObj = event;
-    console.log(this.selectSeatsObj,"this.selectSeatsObj")
+    console.log(this.selectSeatsObj, "this.selectSeatsObj");
   }
 
   //INITIALIZE STEP ONE
