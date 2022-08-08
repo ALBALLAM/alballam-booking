@@ -147,6 +147,7 @@ export class ShowDetailsComponent implements OnInit {
           price: this.selectedZone.price,
           row: object.labels.section,
           seat: object.labels.own,
+          uuid:object.uuid
         };
         let selectedSeat: string =
           selectedSeatForDisplay.row + " " + selectedSeatForDisplay.seat;
@@ -175,6 +176,7 @@ export class ShowDetailsComponent implements OnInit {
           price: this.selectedZone.price,
           row: object.labels.section,
           seat: object.labels.own,
+
         };
         let selectedSeat: string =
           selectedSeatForDisplay.row + " " + selectedSeatForDisplay.seat;
@@ -437,11 +439,26 @@ export class ShowDetailsComponent implements OnInit {
   }
 
   public getPaymentMethods() {
-    const params = {
-      play: this.chosenPlay,
-      zone: this.chosenZone,
-      seats: this.selectSeatsObj.seatstoStore,
-    };
+    let params;
+    if(this.show.country._id=== 'QA')
+    {
+
+       params = {
+        play: this.chosenPlay,
+        zone: this.chosenZone,
+        seats: this.selectSeatsObj.seatsforDisplay,
+        isQatar:true
+      };
+    }
+else{
+  params = {
+    play: this.chosenPlay,
+    zone: this.chosenZone,
+    seats: this.selectSeatsObj.seatstoStore,
+    isQatar:false
+  };
+}
+console.log(params,"params")
     this._communicationService.showLoading(true);
     this._showDetailsService.getPaymentMethod(params).subscribe(
       (response) => {
