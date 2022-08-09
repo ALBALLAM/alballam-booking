@@ -129,6 +129,8 @@ export class ShowDetailsComponent implements OnInit {
   }
 
   public selectZone(zone, index) {
+
+
     console.log(zone);
     this.selectedZone = zone;
     this.config = {
@@ -143,6 +145,7 @@ export class ShowDetailsComponent implements OnInit {
       },
       availableCategories: [this.selectedZone.label],
       onObjectSelected: (object, selectedTickets) => {
+
         let selectedSeatForDisplay = {
           price: this.selectedZone.price,
           row: object.labels.section,
@@ -152,7 +155,7 @@ export class ShowDetailsComponent implements OnInit {
         let selectedSeat: string =
           selectedSeatForDisplay.row + " " + selectedSeatForDisplay.seat;
 
-        console.log(selectedSeatForDisplay);
+        console.log(this.selectSeatsObj );
         if (this.selectSeatsObj == null)
           this.selectSeatsObj = {
             seatsforDisplay: [],
@@ -168,7 +171,6 @@ export class ShowDetailsComponent implements OnInit {
             (sum, current) => sum + current.price,
             0
           );
-        console.log(this.selectSeatsObj, " this.selectSeatsObj");
         console.log(object, "test", selectedTickets);
       },
       onObjectDeselected: (object, selectedTickets) => {
@@ -515,12 +517,26 @@ console.log(params,"params")
   }
 
   public applyPayment() {
-    const params = {
-      play: this.chosenPlay,
-      zone: this.chosenZone,
-      seats: this.selectSeatsObj.seatstoStore,
-      paymentType: this.chosenPackage.PaymentMethodId.toString(),
-    };
+    let params
+    if(this.show.country._id=== 'QA')
+    {
+       params = {
+        play: this.chosenPlay,
+        zone: this.chosenZone,
+        isQatar:true,
+        seats: this.selectSeatsObj.seatsforDisplay,
+        paymentType: this.chosenPackage.PaymentMethodId.toString()
+      };
+    }
+    else{
+      params = {
+        play: this.chosenPlay,
+        zone: this.chosenZone,
+        seatss: this.selectSeatsObj.seatstoStore,
+        paymentType: this.chosenPackage.PaymentMethodId.toString(),
+      };
+    }
+
     this._communicationService.showLoading(true);
     this._showDetailsService.finishPayment(params).subscribe(
       (response) => {
