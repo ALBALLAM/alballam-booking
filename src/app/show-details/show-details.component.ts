@@ -144,6 +144,10 @@ export class ShowDetailsComponent implements OnInit {
         console.info("Render Started");
       },
       availableCategories: [this.selectedZone.label],
+    //   selectionValidators: [
+    //     {type: 'noOrphanSeats', enabled: false}
+    // ],
+    // selectableObjects: ['name-4'],
       onObjectSelected: (object, selectedTickets) => {
 
         let selectedSeatForDisplay = {
@@ -464,7 +468,9 @@ console.log(params,"params")
     this._communicationService.showLoading(true);
     this._showDetailsService.getPaymentMethod(params).subscribe(
       (response) => {
+        
         this.bookSeatingsResponse = response;
+        console.log("this.bookSeatingsResponse", this.bookSeatingsResponse);
       },
       (err) => {
         this._communicationService.showLoading(false);
@@ -527,6 +533,11 @@ console.log(params,"params")
         seats: this.selectSeatsObj.seatsforDisplay,
         paymentType: this.chosenPackage.PaymentMethodId.toString()
       };
+      console.log(params);
+      // console.log(" this.chosenPackage",  this.chosenPackage);
+      
+      // return
+      
     }
     else{
       params = {
