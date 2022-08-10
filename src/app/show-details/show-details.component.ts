@@ -9,7 +9,7 @@ import { MatDialog } from "@angular/material";
 import { ShowDetailsService } from "./show-details.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { variables } from "../app.variables";
-// import { SeatsioClient, Region } from 'node_modules/seatsio';
+import { SeatsioClient, Region } from 'node_modules/seatsio';
 
 import {
   FormBuilder,
@@ -91,8 +91,7 @@ export class ShowDetailsComponent implements OnInit {
   }
 
   public ngOnInit() {
-    // let client = new SeatsioClient(Region.EU(), '440aa06c-6e19-42b7-9288-e39313088016')
-    // client.events.book('dd190aa3-818c-41df-a365-74043e4406aa', ['A-3', 'A-5', 'A-7']);
+
     this._routeSubscription = this._route.params.subscribe((params) => {
       this.currentLang = this._translate.currentLang;
       this.direction = this.currentLang === "ar" ? "rtl" : "ltr";
@@ -141,18 +140,12 @@ export class ShowDetailsComponent implements OnInit {
     this.selectedZone = zone;
     this.config = {
       region: "eu",
-      // e.g. "eu"
       workspaceKey: "440aa06c-6e19-42b7-9288-e39313088016",
-      // workspaceKey: "fc280027-959e-4d95-ac37-da974a11e9fb",
       event: "dd190aa3-818c-41df-a365-74043e4406aa",
       onRenderStarted: (chart) => {
         console.info("Render Started");
       },
       availableCategories: [this.selectedZone.label],
-      //   selectionValidators: [
-      //     {type: 'noOrphanSeats', enabled: false}
-      // ],
-      // selectableObjects: ['name-4'],
       onObjectSelected: (object, selectedTickets) => {
         if (this.reservedSeatsQA.includes(object.labels.displayedLabel)) {
           this.showAlert("You cannot buy this seat because it just got reserved", "");
@@ -187,6 +180,7 @@ export class ShowDetailsComponent implements OnInit {
             0
           );
         console.log(object, "test", selectedTickets);
+
       },
       onObjectDeselected: (object, selectedTickets) => {
         let selectedSeatForDisplay = {
@@ -360,6 +354,16 @@ export class ShowDetailsComponent implements OnInit {
               this.reservedSeatsQA.push(element.displayedLabel);
           });
           console.log("reservedSeatsQA", this.reservedSeatsQA);
+
+
+          let client = new SeatsioClient(Region.EU(), 'aa7b6afc-5b9a-4f80-8ddb-d244cd52259d')
+          console.log("this.reservedSeatsQA", this.reservedSeatsQA)
+          client.events.book('dd190aa3-818c-41df-a365-74043e4406aa', this.reservedSeatsQA);
+          let byLabel = client.eventReports.byLabel('dd190aa3-818c-41df-a365-74043e4406aa', 'VVIP');
+          let report = client.eventReports.byCategoryLabel('dd190aa3-818c-41df-a365-74043e4406aa', '800');
+
+          console.log("byLabel", byLabel);
+
         }
       },
       (err) => {
