@@ -211,6 +211,7 @@ export class ShowDetailsComponent implements OnInit {
         console.log(this.selectSeatsObj, " this.selectSeatsObj");
         console.log(object, "test", selectedTickets);
       },
+
     };
     this.selectedZoneIndex = index;
   }
@@ -358,11 +359,19 @@ export class ShowDetailsComponent implements OnInit {
 
           let client = new SeatsioClient(Region.EU(), 'aa7b6afc-5b9a-4f80-8ddb-d244cd52259d')
           console.log("this.reservedSeatsQA", this.reservedSeatsQA)
-          client.events.book('dd190aa3-818c-41df-a365-74043e4406aa', this.reservedSeatsQA);
-          let byLabel = client.eventReports.byLabel('dd190aa3-818c-41df-a365-74043e4406aa', 'VVIP');
-          let report = client.eventReports.byCategoryLabel('dd190aa3-818c-41df-a365-74043e4406aa', '800');
+          // client.events.book('dd190aa3-818c-41df-a365-74043e4406aa', this.reservedSeatsQA);
+          // let byLabel = client.eventReports.byCategory('dd190aa3-818c-41df-a365-74043e4406aa', 'VVIP');
+           client.eventReports.bySection('dd190aa3-818c-41df-a365-74043e4406aa','L1').then(res => {
+            console.log(res, 'availableReason')
+          })
+        client.eventReports.summaryByCategoryLabel('dd190aa3-818c-41df-a365-74043e4406aa')
+          // console.log(this.selectedZone.label, 'this.selectedZone.label')
+          // console.log("availableReason", availableReason);
+          // console.log("keys", Object.keys(availableReason));
 
-          console.log("byLabel", byLabel);
+          // console.log("availableReason", JSON.stringify(availableReason));
+          // console.log("availableReason", availableReason);
+          // console.log("report", report);
 
         }
       },
