@@ -49,6 +49,7 @@
     "ngx-owl-carousel": "^2.0.7",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.6.0",
+    "seatsio": "^69.1.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
@@ -62,8 +63,8 @@
     "@types/lodash": "^4.14.144",
     "@types/moment": "^2.13.0",
     "@types/moment-timezone": "^0.5.13",
-    "@types/seatsio": "1.2.0",
     "@types/node": "~8.9.4",
+    "@types/seatsio": "1.2.0",
     "codelyzer": "^5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",

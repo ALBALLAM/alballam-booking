@@ -9,6 +9,8 @@ import { MatDialog } from "@angular/material";
 import { ShowDetailsService } from "./show-details.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { variables } from "../app.variables";
+import { SeatsioClient,Region } from 'node_modules/seatsio';
+
 import {
   FormBuilder,
   FormGroup,
@@ -18,7 +20,7 @@ import {
 } from "@angular/forms";
 import * as moment from "moment-timezone";
 import { HostListener } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Subscription} from "rxjs";
 
 // export const termsValidation: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
 //   const formValues = control.value;
@@ -88,6 +90,8 @@ export class ShowDetailsComponent implements OnInit {
   }
 
   public ngOnInit() {
+    // let client = new SeatsioClient(Region.EU(), '440aa06c-6e19-42b7-9288-e39313088016')
+    // client.events.book('dd190aa3-818c-41df-a365-74043e4406aa', ['A-3', 'A-5', 'A-7']);
     this._routeSubscription = this._route.params.subscribe((params) => {
       this.currentLang = this._translate.currentLang;
       this.direction = this.currentLang === "ar" ? "rtl" : "ltr";
@@ -468,7 +472,7 @@ console.log(params,"params")
     this._communicationService.showLoading(true);
     this._showDetailsService.getPaymentMethod(params).subscribe(
       (response) => {
-        
+
         this.bookSeatingsResponse = response;
         console.log("this.bookSeatingsResponse", this.bookSeatingsResponse);
       },
@@ -535,9 +539,9 @@ console.log(params,"params")
       };
       console.log(params);
       // console.log(" this.chosenPackage",  this.chosenPackage);
-      
+
       // return
-      
+
     }
     else{
       params = {

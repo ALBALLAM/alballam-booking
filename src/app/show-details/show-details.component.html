@@ -249,8 +249,9 @@
                     </div>
                     <div fxFlex="25" class="bill-value center-row">{{ seat.row }}</div>
                     <div fxFlex="25" class="bill-value center-row">{{ seat.seat }}</div>
-                    <div fxFlex="25" class="bill-value right-row-{{ currentLang }} bill-price">{{'COMMON.CURRENCY' |
-                      translate}}
+                    <div fxFlex="25" class="bill-value right-row-{{ currentLang }} bill-price">
+                      <span *ngIf="show.country._id === 'QA'">{{ 'COMMON.QA_CURRENCY' | translate }}</span>
+                      <span *ngIf="show.country._id != 'QA'">{{ 'COMMON.CURRENCY' | translate }}</span>
                       {{ seat.price }}
                     </div>
                   </div>
@@ -259,7 +260,10 @@
               <div *ngIf="selectSeatsObj && selectSeatsObj.totalamount!=0" class="sub-total-div padding-left-right-more"
                 fxLayout="row" fxLayoutAlign="space-between center">
                 <div>{{ 'SHOW.SUB_TOTAL' | translate }}</div>
-                <div class="sub-total-value">{{ 'COMMON.CURRENCY' | translate }} {{selectSeatsObj.totalamount |
+                <div class="sub-total-value">
+                  <span *ngIf="show.country._id === 'QA'">{{ 'COMMON.QA_CURRENCY' | translate }}</span>
+                  <span *ngIf="show.country._id != 'QA'">{{ 'COMMON.CURRENCY' | translate }}</span>
+                  {{selectSeatsObj.totalamount |
                   number:'1.0-2'}}
                 </div>
               </div>
@@ -279,7 +283,10 @@
                   <mat-icon svgIcon="prices-grey"></mat-icon>
                   <span class="play-theater space-left">x {{ selectSeatsObj.seatsforDisplay.length }}</span>
                 </div>
-                <div class="total-price">{{ 'COMMON.CURRENCY' | translate }} {{selectSeatsObj.totalamount |
+                <div class="total-price">
+                  <span *ngIf="show.country._id === 'QA'">{{ 'COMMON.QA_CURRENCY' | translate }}</span>
+                  <span *ngIf="show.country._id != 'QA'">{{ 'COMMON.CURRENCY' | translate }}</span>
+                  {{selectSeatsObj.totalamount |
                   number:'1.0-2'}}
                 </div>
               </div>
