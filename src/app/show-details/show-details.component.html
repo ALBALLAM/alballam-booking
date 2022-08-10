@@ -189,7 +189,7 @@
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="end center" class="button-next">
-        <button mat-raised-button color="primary" (click)="showSeats()"
+        <button mat-raised-button color="primary" (click)="showSeats()" [disabled]="!selectedZone"
           class="show-details-book-button">{{ 'COMMON.NEXT' | translate }}
         </button>
       </div>

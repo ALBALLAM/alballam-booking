@@ -9,7 +9,7 @@ import { MatDialog } from "@angular/material";
 import { ShowDetailsService } from "./show-details.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { variables } from "../app.variables";
-import { SeatsioClient,Region } from 'node_modules/seatsio';
+import { SeatsioClient, Region } from 'node_modules/seatsio';
 
 import {
   FormBuilder,
@@ -20,7 +20,7 @@ import {
 } from "@angular/forms";
 import * as moment from "moment-timezone";
 import { HostListener } from "@angular/core";
-import { Subscription} from "rxjs";
+import { Subscription } from "rxjs";
 
 // export const termsValidation: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
 //   const formValues = control.value;
@@ -133,7 +133,8 @@ export class ShowDetailsComponent implements OnInit {
   }
 
   public selectZone(zone, index) {
-
+    if (!zone)
+      zone = this.zonesResponse.zones[1];
 
     console.log(zone);
     this.selectedZone = zone;
@@ -148,22 +149,23 @@ export class ShowDetailsComponent implements OnInit {
         console.info("Render Started");
       },
       availableCategories: [this.selectedZone.label],
-    //   selectionValidators: [
-    //     {type: 'noOrphanSeats', enabled: false}
-    // ],
-    // selectableObjects: ['name-4'],
+      //   selectionValidators: [
+      //     {type: 'noOrphanSeats', enabled: false}
+      // ],
+      // selectableObjects: ['name-4'],
       onObjectSelected: (object, selectedTickets) => {
 
         let selectedSeatForDisplay = {
           price: this.selectedZone.price,
-          row: object.labels.section,
+          row: object.labels.parent,
           seat: object.labels.own,
-          uuid:object.uuid
+          uuid: object.uuid,
+          displayedLabel: object.labels.displayedLabel
         };
         let selectedSeat: string =
           selectedSeatForDisplay.row + " " + selectedSeatForDisplay.seat;
 
-        console.log(this.selectSeatsObj );
+        console.log(this.selectSeatsObj);
         if (this.selectSeatsObj == null)
           this.selectSeatsObj = {
             seatsforDisplay: [],
@@ -184,7 +186,7 @@ export class ShowDetailsComponent implements OnInit {
       onObjectDeselected: (object, selectedTickets) => {
         let selectedSeatForDisplay = {
           price: this.selectedZone.price,
-          row: object.labels.section,
+          row: object.labels.parent,
           seat: object.labels.own,
 
         };
@@ -206,7 +208,7 @@ export class ShowDetailsComponent implements OnInit {
         this.selectSeatsObj.selectedSeats.splice(indexOfselectedSeat, 1);
 
 
-        this.selectSeatsObj.totalamount =this.selectSeatsObj.totalamount - selectedSeatForDisplay.price;
+        this.selectSeatsObj.totalamount = this.selectSeatsObj.totalamount - selectedSeatForDisplay.price;
         console.log(this.selectSeatsObj, " this.selectSeatsObj");
         console.log(object, "test", selectedTickets);
       },
@@ -348,6 +350,7 @@ export class ShowDetailsComponent implements OnInit {
     this._showDetailsService.getZones(playID).subscribe(
       (response) => {
         this.zonesResponse = response;
+        this.selectZone(this.zonesResponse.zones[0], 0)
       },
       (err) => {
         this._communicationService.showLoading(false);
@@ -450,25 +453,24 @@ export class ShowDetailsComponent implements OnInit {
 
   public getPaymentMethods() {
     let params;
-    if(this.show.country._id=== 'QA')
-    {
+    if (this.show.country._id === 'QA') {
 
-       params = {
+      params = {
         play: this.chosenPlay,
         zone: this.chosenZone,
         seats: this.selectSeatsObj.seatsforDisplay,
-        isQatar:true
+        isQatar: true
       };
     }
-else{
-  params = {
-    play: this.chosenPlay,
-    zone: this.chosenZone,
-    seats: this.selectSeatsObj.seatstoStore,
-    isQatar:false
-  };
-}
-console.log(params,"params")
+    else {
+      params = {
+        play: this.chosenPlay,
+        zone: this.chosenZone,
+        seats: this.selectSeatsObj.seatstoStore,
+        isQatar: false
+      };
+    }
+    console.log(params, "params")
     this._communicationService.showLoading(true);
     this._showDetailsService.getPaymentMethod(params).subscribe(
       (response) => {
@@ -528,12 +530,11 @@ console.log(params,"params")
 
   public applyPayment() {
     let params
-    if(this.show.country._id=== 'QA')
-    {
-       params = {
+    if (this.show.country._id === 'QA') {
+      params = {
         play: this.chosenPlay,
         zone: this.chosenZone,
-        isQatar:true,
+        isQatar: true,
         seats: this.selectSeatsObj.seatsforDisplay,
         paymentType: this.chosenPackage.PaymentMethodId.toString()
       };
@@ -543,7 +544,7 @@ console.log(params,"params")
       // return
 
     }
-    else{
+    else {
       params = {
         play: this.chosenPlay,
         zone: this.chosenZone,
