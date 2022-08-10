@@ -66,10 +66,10 @@ export class ShowDetailsService {
     });
   }
 
-  public getSeatingsByZone(zoneID, playID) {
+  public getSeatingsByZone(zoneID, playID,country) {
     return new Observable(userInfoObservable => {
       let apiResponse;
-      const url = environment.url + variables.showDetails.getSeats + '?_id=' + zoneID + '&play=' + playID;
+      const url = environment.url + variables.showDetails.getSeats + '?_id=' + zoneID + '&play=' + playID+ '&country='+country;
       this._apiService.sendApi('get', url,
         {}, true, false)
         .subscribe(response => (apiResponse = response),

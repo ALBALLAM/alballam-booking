@@ -212,26 +212,6 @@ export class ShowDetailsComponent implements OnInit {
         console.log(this.selectSeatsObj, " this.selectSeatsObj");
         console.log(object, "test", selectedTickets);
       },
-
-      // categories: [
-      //   {
-      //     key: "red",
-      //     color: "red",
-      //     label: "Category 1",
-      //     channel:{
-      //       "name": "VIP",
-      //       "key": "red",
-      //       "color": "#E9B64D",
-      //       "index": 3
-      //     }
-      //   },
-      //   {
-      //     key: "blue",
-      //     color: "blue",
-      //     label: "Category 2",
-
-      //   },
-      // ],
     };
     this.selectedZoneIndex = index;
   }
@@ -339,7 +319,7 @@ export class ShowDetailsComponent implements OnInit {
   public ticketsInitialization() {
     if (this.show && this.zonesResponse && this.chosenPlay) {
       this.chosenZone = this.zonesResponse.zones[this.selectedZoneIndex]._id;
-      this.getSeatingsByZone(this.chosenZone, this.chosenPlay);
+      this.getSeatingsByZone(this.chosenZone, this.chosenPlay,this.show.country);
     } else {
       this._utilitiesService.routeToDashboard();
     }
@@ -364,9 +344,9 @@ export class ShowDetailsComponent implements OnInit {
     );
   }
 
-  public getSeatingsByZone(zoneID, playID): void {
+  public getSeatingsByZone(zoneID, playID,country): void {
     this._communicationService.showLoading(true);
-    this._showDetailsService.getSeatingsByZone(zoneID, playID).subscribe(
+    this._showDetailsService.getSeatingsByZone(zoneID, playID,country).subscribe(
       (response) => {
         this.seatingsResponse = response;
       },
