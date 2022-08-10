@@ -68,6 +68,7 @@ export class ShowDetailsComponent implements OnInit {
   private _routeSubscription: Subscription;
   config;
   selectedZone;
+  reservedSeatsQA = [];
 
   constructor(
     private _router: Router,
@@ -143,7 +144,6 @@ export class ShowDetailsComponent implements OnInit {
       // e.g. "eu"
       workspaceKey: "440aa06c-6e19-42b7-9288-e39313088016",
       // workspaceKey: "fc280027-959e-4d95-ac37-da974a11e9fb",
-
       event: "dd190aa3-818c-41df-a365-74043e4406aa",
       onRenderStarted: (chart) => {
         console.info("Render Started");
@@ -154,6 +154,11 @@ export class ShowDetailsComponent implements OnInit {
       // ],
       // selectableObjects: ['name-4'],
       onObjectSelected: (object, selectedTickets) => {
+        if (this.reservedSeatsQA.includes(object.labels.displayedLabel)) {
+          this.showAlert("You cannot buy this seat because it just got reserved", "");
+          object.deselect();
+          return;
+        }
 
         let selectedSeatForDisplay = {
           price: this.selectedZone.price,
@@ -319,7 +324,7 @@ export class ShowDetailsComponent implements OnInit {
   public ticketsInitialization() {
     if (this.show && this.zonesResponse && this.chosenPlay) {
       this.chosenZone = this.zonesResponse.zones[this.selectedZoneIndex]._id;
-      this.getSeatingsByZone(this.chosenZone, this.chosenPlay,this.show.country);
+      this.getSeatingsByZone(this.chosenZone, this.chosenPlay, this.show.country._id);
     } else {
       this._utilitiesService.routeToDashboard();
     }
@@ -344,11 +349,18 @@ export class ShowDetailsComponent implements OnInit {
     );
   }
 
-  public getSeatingsByZone(zoneID, playID,country): void {
+  public getSeatingsByZone(zoneID, playID, country): void {
     this._communicationService.showLoading(true);
-    this._showDetailsService.getSeatingsByZone(zoneID, playID,country).subscribe(
+    this._showDetailsService.getSeatingsByZone(zoneID, playID, country).subscribe(
       (response) => {
         this.seatingsResponse = response;
+        if (country == 'QA') {
+          this.seatingsResponse.forEach(element => {
+            if (element.displayedLabel)
+              this.reservedSeatsQA.push(element.displayedLabel);
+          });
+          console.log("reservedSeatsQA", this.reservedSeatsQA);
+        }
       },
       (err) => {
         this._communicationService.showLoading(false);
