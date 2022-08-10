@@ -69,6 +69,7 @@ export class ShowDetailsComponent implements OnInit {
   config;
   selectedZone;
   reservedSeatsQA = [];
+  selectAtLeastTwoSeats: boolean = false;
 
   constructor(
     private _router: Router,
@@ -146,7 +147,6 @@ export class ShowDetailsComponent implements OnInit {
         console.info("Render Started");
       },
       availableCategories: [this.selectedZone.label],
-      // numberOfPlacesToSelect: 3,
       onObjectSelected: (object, selectedTickets) => {
         if (this.reservedSeatsQA.includes(object.labels.displayedLabel)) {
           this.showAlert("You cannot buy this seat because it just got reserved", "");
@@ -214,6 +214,8 @@ export class ShowDetailsComponent implements OnInit {
       },
 
     };
+    if (this.selectAtLeastTwoSeats)
+      this.config.numberOfPlacesToSelect = 2;
     this.selectedZoneIndex = index;
   }
 
@@ -411,6 +413,8 @@ export class ShowDetailsComponent implements OnInit {
               }
             });
             console.log("Rows Lists in category :", rowsLists);
+            if (res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length === 2)
+              this.selectAtLeastTwoSeats = true;
             console.log("Available seats in categry :", res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length);
           })
 
