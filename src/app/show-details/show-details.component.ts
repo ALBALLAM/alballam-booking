@@ -9,7 +9,7 @@ import { MatDialog } from "@angular/material";
 import { ShowDetailsService } from "./show-details.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { variables } from "../app.variables";
-import { SeatsioClient, Region } from 'node_modules/seatsio';
+// import { SeatsioClient, Region } from 'node_modules/seatsio';
 
 import {
   FormBuilder,
