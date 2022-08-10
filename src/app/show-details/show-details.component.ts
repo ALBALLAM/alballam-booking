@@ -146,6 +146,7 @@ export class ShowDetailsComponent implements OnInit {
         console.info("Render Started");
       },
       availableCategories: [this.selectedZone.label],
+      // numberOfPlacesToSelect: 3,
       onObjectSelected: (object, selectedTickets) => {
         if (this.reservedSeatsQA.includes(object.labels.displayedLabel)) {
           this.showAlert("You cannot buy this seat because it just got reserved", "");
@@ -358,13 +359,63 @@ export class ShowDetailsComponent implements OnInit {
 
 
           let client = new SeatsioClient(Region.EU(), 'aa7b6afc-5b9a-4f80-8ddb-d244cd52259d')
-          console.log("this.reservedSeatsQA", this.reservedSeatsQA)
-          // client.events.book('dd190aa3-818c-41df-a365-74043e4406aa', this.reservedSeatsQA);
+          console.log("this.reservedSeatsQA", this.reservedSeatsQA);
+
+
+          let reservedSeatsToBePassToSeatsIO = this.reservedSeatsQA;
+          let freeSeatsToBePassToSeatsIO = [];
+          client.eventReports.byAvailabilityReason('dd190aa3-818c-41df-a365-74043e4406aa', 'booked').then(res => {
+            console.log(" res['booked']", res["booked"]);
+
+            res["booked"].forEach(element => {
+              reservedSeatsToBePassToSeatsIO = reservedSeatsToBePassToSeatsIO.filter(x => x != element.label);
+              console.log("reservedSeatsToBePassToSeatsIO", reservedSeatsToBePassToSeatsIO);
+              freeSeatsToBePassToSeatsIO.push(element.label);
+            });
+
+            // Book 
+            if (reservedSeatsToBePassToSeatsIO.length > 0)
+              client.events.book('dd190aa3-818c-41df-a365-74043e4406aa', reservedSeatsToBePassToSeatsIO);
+
+            // Free
+            this.reservedSeatsQA.forEach(element => {
+              freeSeatsToBePassToSeatsIO = freeSeatsToBePassToSeatsIO.filter(x => x != element);
+            });
+            if (freeSeatsToBePassToSeatsIO.length > 0)
+              client.events.release('dd190aa3-818c-41df-a365-74043e4406aa', freeSeatsToBePassToSeatsIO);
+
+
+          });
+
+
           // let byLabel = client.eventReports.byCategory('dd190aa3-818c-41df-a365-74043e4406aa', 'VVIP');
-           client.eventReports.bySection('dd190aa3-818c-41df-a365-74043e4406aa','L1').then(res => {
-            console.log(res, 'availableReason')
+          // client.eventReports.bySection('dd190aa3-818c-41df-a365-74043e4406aa', 'L1').then(res => {
+          //   console.log(res, 'availableReason')
+          // })
+
+
+
+          client.eventReports.byAvailabilityReason('dd190aa3-818c-41df-a365-74043e4406aa', 'available').then(res => {
+            let rowsLists = [];
+            res["available"].filter(x => x.categoryLabel === this.selectedZone.label).forEach(element => {
+              if (!rowsLists.find(x => x.row === element.labels.parent.label)) {
+                let model = {
+                  row: element.labels.parent.label,
+                  count: 1
+                }
+                rowsLists.push(model);
+              }
+              else {
+                let savedRow = rowsLists.find(x => x.row === element.labels.parent.label);
+                savedRow.count = savedRow.count + 1;
+              }
+            });
+            console.log("Rows Lists in category :", rowsLists);
+            console.log("Available seats in categry :", res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length);
           })
-        client.eventReports.summaryByCategoryLabel('dd190aa3-818c-41df-a365-74043e4406aa')
+
+
+
           // console.log(this.selectedZone.label, 'this.selectedZone.label')
           // console.log("availableReason", availableReason);
           // console.log("keys", Object.keys(availableReason));
