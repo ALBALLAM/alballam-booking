@@ -77,6 +77,7 @@ export const variables = {
       getShowByIDAndCountry: 'play/countries',
       getZones: 'zone/play',
       getSeats: 'map/zone',
+      getReservedSeatsQAIO: 'map/qa',
       bookSeats: 'ticket',
       paymentMethods: 'ticket/paymentMethods'
     },

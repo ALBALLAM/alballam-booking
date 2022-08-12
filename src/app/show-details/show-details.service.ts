@@ -66,10 +66,27 @@ export class ShowDetailsService {
     });
   }
 
-  public getSeatingsByZone(zoneID, playID,country) {
+  public getSeatingsByZone(zoneID, playID) {
     return new Observable(userInfoObservable => {
       let apiResponse;
-      const url = environment.url + variables.showDetails.getSeats + '?_id=' + zoneID + '&play=' + playID+ '&country='+country;
+      const url = environment.url + variables.showDetails.getSeats + '?_id=' + zoneID + '&play=' + playID;
+      this._apiService.sendApi('get', url,
+        {}, true, false)
+        .subscribe(response => (apiResponse = response),
+          error => {
+            userInfoObservable.error(error);
+          },
+          () => {
+            userInfoObservable.next(apiResponse);
+            userInfoObservable.complete();
+          }
+        );
+    });
+  }
+  public getReservedSeatsQAIO(playID) {
+    return new Observable(userInfoObservable => {
+      let apiResponse;
+      const url = environment.url + variables.showDetails.getReservedSeatsQAIO + '?play=' + playID;
       this._apiService.sendApi('get', url,
         {}, true, false)
         .subscribe(response => (apiResponse = response),
