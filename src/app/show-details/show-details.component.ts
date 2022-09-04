@@ -70,6 +70,7 @@ export class ShowDetailsComponent implements OnInit {
   selectedZone;
   reservedSeatsQA = [];
   selectAtLeastTwoSeats: boolean = false;
+  selectedTime: any;
 
   constructor(
     private _router: Router,
@@ -126,11 +127,14 @@ export class ShowDetailsComponent implements OnInit {
   public selectDate(index) {
     this.selectedDateIndex = index;
     this.times = this.show.dates[index].plays;
+    console.log(this.times = this.show.dates[index].plays,'this.times = this.show.dates[index].plays')
     // this.selectedTimeIndex = 0;
   }
 
-  public selectTime(index) {
+  public selectTime(index,timeObj) {
     this.selectedTimeIndex = index;
+    this.selectedTime = timeObj;
+    console.log(this.selectedTime ,'this.selectedTime ')
   }
 
   public selectZone(zone, index) {
@@ -274,7 +278,7 @@ export class ShowDetailsComponent implements OnInit {
 
   public async getReservedSeatsQAIO(playID) {
     this._communicationService.showLoading(true);
-    await this._showDetailsService.getReservedSeatsQAIO(playID).subscribe(
+    await this._showDetailsService.getReservedSeatsQAIO(playID, this.selectedTime.createSeatsioEventForShow).subscribe(
       (response: any) => {
         response.forEach(element => {
           if (element.displayedLabel)
@@ -291,7 +295,7 @@ export class ShowDetailsComponent implements OnInit {
 
         let reservedSeatsToBePassToSeatsIO = this.reservedSeatsQA;
         let freeSeatsToBePassToSeatsIO = [];
-        client.eventReports.byAvailabilityReason('dd190aa3-818c-41df-a365-74043e4406aa', 'booked').then(res => {
+        client.eventReports.byAvailabilityReason(this.selectedTime.createSeatsioEventForShow, 'booked').then(res => {
           console.log(" res['booked']", res["booked"]);
 
           res["booked"].forEach(element => {
@@ -300,10 +304,10 @@ export class ShowDetailsComponent implements OnInit {
             freeSeatsToBePassToSeatsIO.push(element.label);
           });
 
-          // Book 
+          // Book
           if (reservedSeatsToBePassToSeatsIO.length > 0)
-            client.events.book('dd190aa3-818c-41df-a365-74043e4406aa', reservedSeatsToBePassToSeatsIO).then(result => {
-              client.eventReports.byAvailabilityReason('dd190aa3-818c-41df-a365-74043e4406aa', 'available').then(res => {
+            client.events.book(this.selectedTime.createSeatsioEventForShow, reservedSeatsToBePassToSeatsIO).then(result => {
+              client.eventReports.byAvailabilityReason(this.selectedTime.createSeatsioEventForShow, 'available').then(res => {
                 let rowsLists = [];
                 res["available"].filter(x => x.categoryLabel === this.selectedZone.label).forEach(element => {
                   if (res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length == 2)
@@ -321,8 +325,8 @@ export class ShowDetailsComponent implements OnInit {
             freeSeatsToBePassToSeatsIO = freeSeatsToBePassToSeatsIO.filter(x => x != element);
           });
           if (freeSeatsToBePassToSeatsIO.length > 0)
-            client.events.release('dd190aa3-818c-41df-a365-74043e4406aa', freeSeatsToBePassToSeatsIO).then(result => {
-              client.eventReports.byAvailabilityReason('dd190aa3-818c-41df-a365-74043e4406aa', 'available').then(res => {
+            client.events.release(this.selectedTime.createSeatsioEventForShow, freeSeatsToBePassToSeatsIO).then(result => {
+              client.eventReports.byAvailabilityReason(this.selectedTime.createSeatsioEventForShow, 'available').then(res => {
                 let rowsLists = [];
                 res["available"].filter(x => x.categoryLabel === this.selectedZone.label).forEach(element => {
                   if (res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length == 2)
@@ -339,14 +343,14 @@ export class ShowDetailsComponent implements OnInit {
         });
 
 
-        // let byLabel = client.eventReports.byCategory('dd190aa3-818c-41df-a365-74043e4406aa', 'VVIP');
-        // client.eventReports.bySection('dd190aa3-818c-41df-a365-74043e4406aa', 'L1').then(res => {
+        // let byLabel = client.eventReports.byCategory(this.selectedTime.createSeatsioEventForShow, 'VVIP');
+        // client.eventReports.bySection(this.selectedTime.createSeatsioEventForShow, 'L1').then(res => {
         //   console.log(res, 'availableReason')
         // })
 
 
 
-        client.eventReports.byAvailabilityReason('dd190aa3-818c-41df-a365-74043e4406aa', 'available').then(res => {
+        client.eventReports.byAvailabilityReason(this.selectedTime.createSeatsioEventForShow, 'available').then(res => {
           let rowsLists = [];
           res["available"].filter(x => x.categoryLabel === this.selectedZone.label).forEach(element => {
             if (!rowsLists.find(x => x.row === element.labels.parent.label)) {
@@ -425,7 +429,7 @@ export class ShowDetailsComponent implements OnInit {
     this.config = {
       region: "eu",
       workspaceKey: "440aa06c-6e19-42b7-9288-e39313088016",
-      event: "dd190aa3-818c-41df-a365-74043e4406aa",
+      event:this.selectedTime.createSeatsioEventForShow,
       onRenderStarted: (chart) => {
         console.info("Render Started");
       },
@@ -566,21 +570,22 @@ export class ShowDetailsComponent implements OnInit {
 
   public getPaymentMethods() {
     let params;
-    if (this.show.country._id === 'QA') {
-
+    if (this.selectedTime.createSeatsioEventForShow) {
       params = {
         play: this.chosenPlay,
         zone: this.chosenZone,
         seats: this.selectSeatsObj.seatsforDisplay,
-        isQatar: true
+        seatsio: true
       };
     }
     else {
+console.log(this.selectSeatsObj.seatsforDisplay,'this.selectSeatsObj.seatsforDisplay')
+
       params = {
         play: this.chosenPlay,
         zone: this.chosenZone,
         seats: this.selectSeatsObj.seatstoStore,
-        isQatar: false
+        seatsio: false
       };
     }
     console.log(params, "params")
@@ -643,13 +648,14 @@ export class ShowDetailsComponent implements OnInit {
 
   public applyPayment() {
     let params
-    if (this.show.country._id === 'QA') {
+    if (this.selectedTime.createSeatsioEventForShow) {
       params = {
         play: this.chosenPlay,
         zone: this.chosenZone,
-        isQatar: true,
+        isQatar: this.show.country._id === 'QA',
         seats: this.selectSeatsObj.seatsforDisplay,
-        paymentType: this.chosenPackage.PaymentMethodId.toString()
+        paymentType: this.chosenPackage.PaymentMethodId.toString(),
+        seatsio: true
       };
       console.log(params);
       // console.log(" this.chosenPackage",  this.chosenPackage);
@@ -661,8 +667,10 @@ export class ShowDetailsComponent implements OnInit {
       params = {
         play: this.chosenPlay,
         zone: this.chosenZone,
+        isQatar: this.show.country._id === 'QA',
         seatss: this.selectSeatsObj.seatstoStore,
         paymentType: this.chosenPackage.PaymentMethodId.toString(),
+        seatsio: false
       };
     }
 

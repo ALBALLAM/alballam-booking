@@ -83,10 +83,10 @@ export class ShowDetailsService {
         );
     });
   }
-  public getReservedSeatsQAIO(playID) {
+  public getReservedSeatsQAIO(playID, createSeatsioEventForShow) {
     return new Observable(userInfoObservable => {
       let apiResponse;
-      const url = environment.url + variables.showDetails.getReservedSeatsQAIO + '?play=' + playID;
+      const url = environment.url + variables.showDetails.getReservedSeatsQAIO + '?play=' + playID + '&createSeatsioEventForShow ='+ createSeatsioEventForShow;
       this._apiService.sendApi('get', url,
         {}, true, false)
         .subscribe(response => (apiResponse = response),

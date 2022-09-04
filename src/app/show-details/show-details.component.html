@@ -1,3 +1,4 @@
+
 <ng-container *ngIf="showComponentStep === 1">
   <div *ngIf="show" class="details-container language-{{ currentLang }}" [dir]="direction">
     <div *ngIf="show.dates && show.dates.length>0" class="white-container white-container-date">
@@ -21,7 +22,7 @@
             <div *cdkVirtualFor="let timeObj of times;let ind=index;">
               <div class="date-item time-item clickable"
                 [ngClass]="selectedTimeIndex===ind?'date-selected-true':'date-selected-false'"
-                (click)="selectTime(ind)">
+                (click)="selectTime(ind,timeObj)">
                 <span [dir]="'ltr'">{{ timeObj.timeDisplay }}</span>
               </div>
             </div>
