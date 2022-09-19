@@ -127,14 +127,14 @@ export class ShowDetailsComponent implements OnInit {
   public selectDate(index) {
     this.selectedDateIndex = index;
     this.times = this.show.dates[index].plays;
-    console.log(this.times = this.show.dates[index].plays,'this.times = this.show.dates[index].plays')
+    console.log(this.times = this.show.dates[index].plays, 'this.times = this.show.dates[index].plays')
     // this.selectedTimeIndex = 0;
   }
 
-  public selectTime(index,timeObj) {
+  public selectTime(index, timeObj) {
     this.selectedTimeIndex = index;
     this.selectedTime = timeObj;
-    console.log(this.selectedTime ,'this.selectedTime ')
+    console.log(this.selectedTime, 'this.selectedTime ')
   }
 
   public selectZone(zone, index) {
@@ -312,8 +312,8 @@ export class ShowDetailsComponent implements OnInit {
                 res["available"].filter(x => x.categoryLabel === this.selectedZone.label).forEach(element => {
                   if (res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length == 2)
                     this.selectAtLeastTwoSeats = true;
-                    else
-                      this.selectAtLeastTwoSeats = false;
+                  else
+                    this.selectAtLeastTwoSeats = false;
                   this.setSeatsIOConfig();
                   console.log("Available seats in categry :", res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length);
                 })
@@ -331,8 +331,8 @@ export class ShowDetailsComponent implements OnInit {
                 res["available"].filter(x => x.categoryLabel === this.selectedZone.label).forEach(element => {
                   if (res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length == 2)
                     this.selectAtLeastTwoSeats = true;
-                    else
-                      this.selectAtLeastTwoSeats = false;
+                  else
+                    this.selectAtLeastTwoSeats = false;
                   this.setSeatsIOConfig();
                   console.log("Available seats in categry :", res["available"].filter(x => x.categoryLabel === this.selectedZone.label).length);
                 })
@@ -429,7 +429,7 @@ export class ShowDetailsComponent implements OnInit {
     this.config = {
       region: "eu",
       workspaceKey: "440aa06c-6e19-42b7-9288-e39313088016",
-      event:this.selectedTime.createSeatsioEventForShow,
+      event: this.selectedTime.createSeatsioEventForShow,
       onRenderStarted: (chart) => {
         console.info("Render Started");
       },
@@ -575,11 +575,12 @@ export class ShowDetailsComponent implements OnInit {
         play: this.chosenPlay,
         zone: this.chosenZone,
         seats: this.selectSeatsObj.seatsforDisplay,
-        seatsio: true
+        seatsio: true,
+        createSeatsioEventForShow: this.selectedTime.createSeatsioEventForShow
       };
     }
     else {
-console.log(this.selectSeatsObj.seatsforDisplay,'this.selectSeatsObj.seatsforDisplay')
+      console.log(this.selectSeatsObj.seatsforDisplay, 'this.selectSeatsObj.seatsforDisplay')
 
       params = {
         play: this.chosenPlay,
@@ -655,6 +656,7 @@ console.log(this.selectSeatsObj.seatsforDisplay,'this.selectSeatsObj.seatsforDis
         isQatar: this.show.country._id === 'QA',
         seats: this.selectSeatsObj.seatsforDisplay,
         paymentType: this.chosenPackage.PaymentMethodId.toString(),
+        createSeatsioEventForShow: this.selectedTime.createSeatsioEventForShow,
         seatsio: true
       };
       console.log(params);
